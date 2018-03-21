@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SerwisKomputerowyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Klienci">
+          <Key>
+            <PropertyRef Name="idKlienta" />
+          </Key>
+          <Property Name="idKlienta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nazwisko" Type="varchar" MaxLength="50" />
+          <Property Name="Imie" Type="varchar" MaxLength="50" />
+          <Property Name="Adres" Type="varchar" MaxLength="100" />
+          <Property Name="Numer_telefonu" Type="int" />
+        </EntityType>
+        <EntityType Name="Urządzenia">
+          <Key>
+            <PropertyRef Name="idUrządzenia" />
+          </Key>
+          <Property Name="idUrządzenia" Type="int" Nullable="false" />
+          <Property Name="Rodzaj_urzązenia" Type="varchar" MaxLength="50" />
+          <Property Name="Model_urządzenia" Type="varchar" MaxLength="50" />
+          <Property Name="Parametry_urządzenia" Type="varchar(max)" />
+          <Property Name="idKlienta_fk" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usterki">
+          <Key>
+            <PropertyRef Name="idUsterki" />
+          </Key>
+          <Property Name="idUsterki" Type="int" Nullable="false" />
+          <Property Name="Rodzaj_usterki" Type="varchar" MaxLength="50" />
+          <Property Name="Opis_usterki" Type="varchar(max)" />
+          <Property Name="Wykonane_prace" Type="varchar(max)" />
+          <Property Name="idZlecenia_fk" Type="int" />
+          <Property Name="idUrządzenia_fk" Type="int" />
+        </EntityType>
+        <EntityType Name="Zlecenia_dla_klienta">
+          <Key>
+            <PropertyRef Name="idZlecenia" />
+          </Key>
+          <Property Name="idZlecenia" Type="int" Nullable="false" />
+          <Property Name="Data_przyjęcia_zlecenia" Type="date" />
+          <Property Name="Data_wykonania" Type="date" />
+          <Property Name="Całkowity_koszt" Type="decimal" Precision="16" Scale="2" />
+          <Property Name="idKlienta_fk" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Table_ToTable">
+          <End Role="Zlecenia_dla_klienta" Type="Self.Zlecenia_dla_klienta" Multiplicity="0..1" />
+          <End Role="Usterki" Type="Self.Usterki" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zlecenia_dla_klienta">
+              <PropertyRef Name="idZlecenia" />
+            </Principal>
+            <Dependent Role="Usterki">
+              <PropertyRef Name="idZlecenia_fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_ToTable_1">
+          <End Role="Urządzenia" Type="Self.Urządzenia" Multiplicity="0..1" />
+          <End Role="Usterki" Type="Self.Usterki" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urządzenia">
+              <PropertyRef Name="idUrządzenia" />
+            </Principal>
+            <Dependent Role="Usterki">
+              <PropertyRef Name="idUrządzenia_fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Urządzenia_ToTable">
+          <End Role="Klienci" Type="Self.Klienci" Multiplicity="1" />
+          <End Role="Urządzenia" Type="Self.Urządzenia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klienci">
+              <PropertyRef Name="idKlienta" />
+            </Principal>
+            <Dependent Role="Urządzenia">
+              <PropertyRef Name="idKlienta_fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="idKlienta_fk">
+          <End Role="Klienci" Type="Self.Klienci" Multiplicity="1" />
+          <End Role="Zlecenia_dla_klienta" Type="Self.Zlecenia_dla_klienta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klienci">
+              <PropertyRef Name="idKlienta" />
+            </Principal>
+            <Dependent Role="Zlecenia_dla_klienta">
+              <PropertyRef Name="idKlienta_fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SerwisKomputerowyModelStoreContainer">
+          <EntitySet Name="Klienci" EntityType="Self.Klienci" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Urządzenia" EntityType="Self.Urządzenia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usterki" EntityType="Self.Usterki" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Zlecenia_dla_klienta" EntityType="Self.Zlecenia_dla_klienta" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Table_ToTable" Association="Self.FK_Table_ToTable">
+            <End Role="Zlecenia_dla_klienta" EntitySet="Zlecenia_dla_klienta" />
+            <End Role="Usterki" EntitySet="Usterki" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ToTable_1" Association="Self.FK_Table_ToTable_1">
+            <End Role="Urządzenia" EntitySet="Urządzenia" />
+            <End Role="Usterki" EntitySet="Usterki" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Urządzenia_ToTable" Association="Self.FK_Urządzenia_ToTable">
+            <End Role="Klienci" EntitySet="Klienci" />
+            <End Role="Urządzenia" EntitySet="Urządzenia" />
+          </AssociationSet>
+          <AssociationSet Name="idKlienta_fk" Association="Self.idKlienta_fk">
+            <End Role="Klienci" EntitySet="Klienci" />
+            <End Role="Zlecenia_dla_klienta" EntitySet="Zlecenia_dla_klienta" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SerwisKomputerowyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Klienci">
+          <Key>
+            <PropertyRef Name="idKlienta" />
+          </Key>
+          <Property Name="idKlienta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nazwisko" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Imie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Adres" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Numer_telefonu" Type="Int32" />
+          <NavigationProperty Name="Urządzenia" Relationship="Self.FK_Urządzenia_ToTable" FromRole="Klienci" ToRole="Urządzenia" />
+          <NavigationProperty Name="Zlecenia_dla_klienta" Relationship="Self.idKlienta_fk" FromRole="Klienci" ToRole="Zlecenia_dla_klienta" />
+        </EntityType>
+        <EntityType Name="Urządzenia">
+          <Key>
+            <PropertyRef Name="idUrządzenia" />
+          </Key>
+          <Property Name="idUrządzenia" Type="Int32" Nullable="false" />
+          <Property Name="Rodzaj_urzązenia" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Model_urządzenia" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Parametry_urządzenia" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="idKlienta_fk" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Klienci" Relationship="Self.FK_Urządzenia_ToTable" FromRole="Urządzenia" ToRole="Klienci" />
+          <NavigationProperty Name="Usterki" Relationship="Self.FK_Table_ToTable_1" FromRole="Urządzenia" ToRole="Usterki" />
+        </EntityType>
+        <EntityType Name="Usterki">
+          <Key>
+            <PropertyRef Name="idUsterki" />
+          </Key>
+          <Property Name="idUsterki" Type="Int32" Nullable="false" />
+          <Property Name="Rodzaj_usterki" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Opis_usterki" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Wykonane_prace" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="idZlecenia_fk" Type="Int32" />
+          <Property Name="idUrządzenia_fk" Type="Int32" />
+          <NavigationProperty Name="Urządzenia" Relationship="Self.FK_Table_ToTable_1" FromRole="Usterki" ToRole="Urządzenia" />
+          <NavigationProperty Name="Zlecenia_dla_klienta" Relationship="Self.FK_Table_ToTable" FromRole="Usterki" ToRole="Zlecenia_dla_klienta" />
+        </EntityType>
+        <EntityType Name="Zlecenia_dla_klienta">
+          <Key>
+            <PropertyRef Name="idZlecenia" />
+          </Key>
+          <Property Name="idZlecenia" Type="Int32" Nullable="false" />
+          <Property Name="Data_przyjęcia_zlecenia" Type="DateTime" Precision="0" />
+          <Property Name="Data_wykonania" Type="DateTime" Precision="0" />
+          <Property Name="Całkowity_koszt" Type="Decimal" Precision="16" Scale="2" />
+          <Property Name="idKlienta_fk" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Klienci" Relationship="Self.idKlienta_fk" FromRole="Zlecenia_dla_klienta" ToRole="Klienci" />
+          <NavigationProperty Name="Usterki" Relationship="Self.FK_Table_ToTable" FromRole="Zlecenia_dla_klienta" ToRole="Usterki" />
+        </EntityType>
+        <Association Name="FK_Urządzenia_ToTable">
+          <End Role="Klienci" Type="Self.Klienci" Multiplicity="1" />
+          <End Role="Urządzenia" Type="Self.Urządzenia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klienci">
+              <PropertyRef Name="idKlienta" />
+            </Principal>
+            <Dependent Role="Urządzenia">
+              <PropertyRef Name="idKlienta_fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="idKlienta_fk">
+          <End Role="Klienci" Type="Self.Klienci" Multiplicity="1" />
+          <End Role="Zlecenia_dla_klienta" Type="Self.Zlecenia_dla_klienta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klienci">
+              <PropertyRef Name="idKlienta" />
+            </Principal>
+            <Dependent Role="Zlecenia_dla_klienta">
+              <PropertyRef Name="idKlienta_fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_ToTable_1">
+          <End Role="Urządzenia" Type="Self.Urządzenia" Multiplicity="0..1" />
+          <End Role="Usterki" Type="Self.Usterki" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urządzenia">
+              <PropertyRef Name="idUrządzenia" />
+            </Principal>
+            <Dependent Role="Usterki">
+              <PropertyRef Name="idUrządzenia_fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_ToTable">
+          <End Role="Zlecenia_dla_klienta" Type="Self.Zlecenia_dla_klienta" Multiplicity="0..1" />
+          <End Role="Usterki" Type="Self.Usterki" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zlecenia_dla_klienta">
+              <PropertyRef Name="idZlecenia" />
+            </Principal>
+            <Dependent Role="Usterki">
+              <PropertyRef Name="idZlecenia_fk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SerwisKomputerowyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Klienci" EntityType="Self.Klienci" />
+          <EntitySet Name="Urządzenia" EntityType="Self.Urządzenia" />
+          <EntitySet Name="Usterki" EntityType="Self.Usterki" />
+          <EntitySet Name="Zlecenia_dla_klienta" EntityType="Self.Zlecenia_dla_klienta" />
+          <AssociationSet Name="FK_Urządzenia_ToTable" Association="Self.FK_Urządzenia_ToTable">
+            <End Role="Klienci" EntitySet="Klienci" />
+            <End Role="Urządzenia" EntitySet="Urządzenia" />
+          </AssociationSet>
+          <AssociationSet Name="idKlienta_fk" Association="Self.idKlienta_fk">
+            <End Role="Klienci" EntitySet="Klienci" />
+            <End Role="Zlecenia_dla_klienta" EntitySet="Zlecenia_dla_klienta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ToTable_1" Association="Self.FK_Table_ToTable_1">
+            <End Role="Urządzenia" EntitySet="Urządzenia" />
+            <End Role="Usterki" EntitySet="Usterki" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ToTable" Association="Self.FK_Table_ToTable">
+            <End Role="Zlecenia_dla_klienta" EntitySet="Zlecenia_dla_klienta" />
+            <End Role="Usterki" EntitySet="Usterki" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SerwisKomputerowyModelStoreContainer" CdmEntityContainer="SerwisKomputerowyEntities">
+          <EntitySetMapping Name="Klienci">
+            <EntityTypeMapping TypeName="SerwisKomputerowyModel.Klienci">
+              <MappingFragment StoreEntitySet="Klienci">
+                <ScalarProperty Name="idKlienta" ColumnName="idKlienta" />
+                <ScalarProperty Name="Nazwisko" ColumnName="Nazwisko" />
+                <ScalarProperty Name="Imie" ColumnName="Imie" />
+                <ScalarProperty Name="Adres" ColumnName="Adres" />
+                <ScalarProperty Name="Numer_telefonu" ColumnName="Numer_telefonu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Urządzenia">
+            <EntityTypeMapping TypeName="SerwisKomputerowyModel.Urządzenia">
+              <MappingFragment StoreEntitySet="Urządzenia">
+                <ScalarProperty Name="idUrządzenia" ColumnName="idUrządzenia" />
+                <ScalarProperty Name="Rodzaj_urzązenia" ColumnName="Rodzaj_urzązenia" />
+                <ScalarProperty Name="Model_urządzenia" ColumnName="Model_urządzenia" />
+                <ScalarProperty Name="Parametry_urządzenia" ColumnName="Parametry_urządzenia" />
+                <ScalarProperty Name="idKlienta_fk" ColumnName="idKlienta_fk" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usterki">
+            <EntityTypeMapping TypeName="SerwisKomputerowyModel.Usterki">
+              <MappingFragment StoreEntitySet="Usterki">
+                <ScalarProperty Name="idUsterki" ColumnName="idUsterki" />
+                <ScalarProperty Name="Rodzaj_usterki" ColumnName="Rodzaj_usterki" />
+                <ScalarProperty Name="Opis_usterki" ColumnName="Opis_usterki" />
+                <ScalarProperty Name="Wykonane_prace" ColumnName="Wykonane_prace" />
+                <ScalarProperty Name="idZlecenia_fk" ColumnName="idZlecenia_fk" />
+                <ScalarProperty Name="idUrządzenia_fk" ColumnName="idUrządzenia_fk" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Zlecenia_dla_klienta">
+            <EntityTypeMapping TypeName="SerwisKomputerowyModel.Zlecenia_dla_klienta">
+              <MappingFragment StoreEntitySet="Zlecenia_dla_klienta">
+                <ScalarProperty Name="idZlecenia" ColumnName="idZlecenia" />
+                <ScalarProperty Name="Data_przyjęcia_zlecenia" ColumnName="Data_przyjęcia_zlecenia" />
+                <ScalarProperty Name="Data_wykonania" ColumnName="Data_wykonania" />
+                <ScalarProperty Name="Całkowity_koszt" ColumnName="Całkowity_koszt" />
+                <ScalarProperty Name="idKlienta_fk" ColumnName="idKlienta_fk" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

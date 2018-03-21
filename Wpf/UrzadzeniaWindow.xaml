@@ -1,0 +1,77 @@
+﻿<Window x:Class="Wpf.UrzadzeniaWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wpf"
+        mc:Ignorable="d"
+        Title="Urzadzenia" Width="1280" Height="720">
+    <Border Background="LightBlue">
+        <Viewbox Margin="10" >
+            <Grid Margin="0,10,0,10" Width="1280" Height="720" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="2*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                <!--Grid row 1:-->
+                <Button x:Name="btnPost" Content="Dodaj" HorizontalAlignment="Left" Margin="1114,251,0,0" VerticalAlignment="Top" Width="166" Click="btnPost_Click" Grid.Row="1" FontSize="20" Height="66"/>
+                <Button x:Name="btnGetAll" Content="Pokaż wszystkie urządzenia" HorizontalAlignment="Left" Margin="145,3,0,0" VerticalAlignment="Top" Width="158" Click="btnGetAll_Click" Grid.Row="1"/>
+                <Button x:Name="btnPut" Content="Zmien" HorizontalAlignment="Left" Margin="1114,420,0,-6" VerticalAlignment="Top" Width="166" Grid.Row="1" FontSize="20" Height="66" Click="btnPut_Click"/>
+                <Button x:Name="btnDelete" Content="Usun" HorizontalAlignment="Left" Margin="1114,335,0,0" VerticalAlignment="Top" Width="166" Click="btnDelete_Click" Grid.Row="1" FontSize="20" Height="66"/>
+
+                <ListView x:Name="lstView1" ItemsSource="{Binding TrackCollection}" Loaded="lstView1_Loaded" Height="220" VerticalAlignment="Top" Margin="0,25,0,0" Grid.Row="1" SelectionChanged="lstView1_SelectionChanged" MouseDoubleClick="lstView1_MouseDoubleClick">
+                    <ListView.Resources>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=idKlienta_fk}" Value="{x:Null}">
+                                    <Setter Property="Background" Value="Pink" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.Resources>
+
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Path= idUrządzenia}" Width="50px"/>
+                            <GridViewColumn Header="Rodzaj" DisplayMemberBinding="{Binding Path= Rodzaj_urzązenia}" Width="150px"/>
+                            <GridViewColumn Header="Model" DisplayMemberBinding="{Binding Path= Model_urządzenia}" Width="300px"/>
+                            <GridViewColumn Header="Parametry" DisplayMemberBinding="{Binding Path= Parametry_urządzenia}" Width="650px"/>
+                            <GridViewColumn Header="Id_Klienta" DisplayMemberBinding="{Binding Path=idKlienta_fk}" Width="100px"/>
+                        </GridView>
+                    </ListView.View>
+
+                </ListView>
+                <Button x:Name="btnRefresh" Content="Pokaż urządzenia klienta" HorizontalAlignment="Left" Margin="0,3,0,0" VerticalAlignment="Top" Width="145" Click="btnRefresh_Click" Grid.Row="1"/>
+
+                <!--Grid row 0:-->
+                <Image Source="/Resources/account_icon.png" Margin="-5,-10,1015,10" Grid.Row="0"/>
+                <Image Source="/Resources/shad.png" Margin="145,13,840,477" Grid.RowSpan="2"/>
+                <Label x:Name="label" Content="Imie:" HorizontalAlignment="Left" Margin="328,51,0,0" VerticalAlignment="Top" Width="208" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="label_Copy" Content="Nazwisko:" HorizontalAlignment="Left" Margin="328,97,0,0" VerticalAlignment="Top" Width="208" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="label_Copy1" Content="Adres:" HorizontalAlignment="Left" Margin="328,143,0,0" VerticalAlignment="Top" Width="208" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="label_Copy2" Content="Numer telefonu: " HorizontalAlignment="Left" Margin="327,189,0,0" VerticalAlignment="Top" Width="208" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="label_Copy3" Content="Id:" HorizontalAlignment="Left" Margin="328,10,0,0" VerticalAlignment="Top" Width="208" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="lblUim" Content="..." HorizontalAlignment="Left" Margin="391,51,0,0" VerticalAlignment="Top" Width="696" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="lblUnazw" Content="..." HorizontalAlignment="Left" Margin="446,97,0,0" VerticalAlignment="Top" Width="641" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="lblUadr" Content="..." HorizontalAlignment="Left" Margin="402,143,0,0" VerticalAlignment="Top" Width="685" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="lblUnrTel" Content="..." HorizontalAlignment="Left" Margin="518,189,0,0" VerticalAlignment="Top" Width="569" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="lblUid" Content="..." HorizontalAlignment="Left" Margin="363,10,0,0" VerticalAlignment="Top" Width="724" Height="45" FontSize="24" FontWeight="Bold" Grid.Row="0" Loaded="lblUid_Loaded"/>
+                <TextBox x:Name="txt1_Rodzaj" HorizontalAlignment="Left" Height="34" Margin="11,277,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="1076" Grid.Row="1"/>
+                <TextBox x:Name="txt3_Model" HorizontalAlignment="Left"  Margin="11,362,0,0" TextWrapping="Wrap"  Width="1076" Grid.Row="1" VerticalAlignment="Top" Height="33" />
+                <TextBox x:Name="txt4_Parametry" VerticalAlignment="Top" Margin="11,446,193,0" TextWrapping="Wrap" Grid.Row="1" Height="34"/>
+                <Label x:Name="lblRodzaj" Content="Wpisz rodzaj:" HorizontalAlignment="Left" Margin="0,252,0,0" VerticalAlignment="Top" Width="1087" Height="26" Grid.Row="1"/>
+                <Label x:Name="lblModel" Content="Wpisz model:" HorizontalAlignment="Left" Margin="0,335,0,0" VerticalAlignment="Top" Width="1087" Height="27" Grid.Row="1"/>
+                <Label x:Name="lblParametry"  Content="Wpisz parametry:" HorizontalAlignment="Left" Margin="0,418,0,0" VerticalAlignment="Top" Width="1087" Height="28" Grid.Row="1"/>
+                <Button x:Name="btnGoToUsterki" Content="Przejdź do usterek    ➜" HorizontalAlignment="Left" Margin="1106,3,0,0" VerticalAlignment="Top" Width="174" Click="btnGoToUsterki_Click" Grid.Row="1"/>
+                <Button x:Name="btnNavigateKlienci" Content="Klienci" HorizontalAlignment="Left" Margin="458,-21,0,0" VerticalAlignment="Top" Width="125" Height="22" Click="btnNavigateKlienci_Click" FontWeight="Bold" Background="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                <Button x:Name="btnNavigateUsterki" Content="Usterki" HorizontalAlignment="Left" Margin="708,-21,0,0" VerticalAlignment="Top" Width="125" Height="22" Click="btnNavigateUsterki_Click" FontWeight="Bold" Background="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                <Button x:Name="btnNavigateZlecenia" Content="Zlecenia" HorizontalAlignment="Left" Margin="583,-21,0,0" VerticalAlignment="Top" Width="125" Height="22" Click="btnNavigateZlecenia_Click" FontWeight="Bold" Background="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+
+            </Grid>
+        </Viewbox>
+    </Border>
+</Window>

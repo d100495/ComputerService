@@ -1,0 +1,58 @@
+﻿<Window x:Class="Wpf.WybierzWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wpf"
+        mc:Ignorable="d"
+        Title="Wybierz" Width="1280"  Height="720">
+    <Border Background="LightBlue">
+        <Viewbox Name="view1">
+            <Grid Margin="0,10,0,10" Width="1280" Height="720">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+
+                <ListView x:Name="lstView1"  Loaded="lstView1_Loaded" MouseDoubleClick="lstView1_MouseDoubleClick" ItemsSource="{Binding TrackCollection}" Height="600" VerticalAlignment="Top" Margin="0,25,10,0"  SelectionChanged="lstView1_SelectionChanged">
+                    <ListView.View >
+                        <GridView >
+                            <GridViewColumn Header="Id" DisplayMemberBinding="{Binding idZlecenia}" Width="50px"/>
+                            <GridViewColumn Header="Data przyjęcia zlecenia" DisplayMemberBinding="{Binding Data_przyjęcia_zlecenia}" Width="150px"/>
+                            <GridViewColumn Header="Data wykonania" DisplayMemberBinding="{Binding Data_wykonania}" Width="150px"/>
+                            <GridViewColumn Header="Całkowity koszt" DisplayMemberBinding="{Binding Całkowity_koszt}" Width="150px"/>
+                            <GridViewColumn Header="Id Klienta" DisplayMemberBinding="{Binding idKlienta_fk}" Width="120px"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <ListView x:Name="lstView2"  ItemsSource="{Binding TrackCollection}" Height="600" VerticalAlignment="Top" Margin="10,25,0,0"  Grid.Column="1" Loaded="lstView2_Loaded" SelectionChanged="lstView2_SelectionChanged">
+                    <ListView.View >
+                        <GridView >
+                            <GridViewColumn Header="Id" DisplayMemberBinding="{Binding idUrządzenia}" Width="40px"/>
+                            <GridViewColumn Header="Rodzaj urzązenia" DisplayMemberBinding="{Binding Rodzaj_urzązenia}" Width="100px"/>
+                            <GridViewColumn Header="Model urządzenia" DisplayMemberBinding="{Binding Model_urządzenia}" Width="150px"/>
+                            <GridViewColumn Header="Parametry" DisplayMemberBinding="{Binding Parametry_urządzenia}" Width="250px"/>
+                            <GridViewColumn Header="Id Klienta" DisplayMemberBinding="{Binding idKlienta_fk}" Width="80px"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Button x:Name="btn_GetAllUrzadzenia" Content="Pokaż wszystkie" Grid.Column="1" HorizontalAlignment="Left" Margin="10,3,0,0" VerticalAlignment="Top" Width="113" Click="btn_GetAllUrzadzenia_Click"/>
+                <Button x:Name="btn_GetAllZlecenia" Content="Pokaż wszystkie" HorizontalAlignment="Left" Margin="0,3,0,0" VerticalAlignment="Top" Width="113" Click="btn_GetAllZlecenia_Click"/>
+                <Button x:Name="btn_Wybierz" Grid.ColumnSpan="2" Content="Zatwierdź" HorizontalAlignment="Left" Height="44" Margin="473,666,0,0" VerticalAlignment="Top" Width="338" FontSize="22" FontWeight="Bold" Click="btn_Wybierz_Click"/>
+                <Label x:Name="lblWybranyzlecenie" Content="Aktualne ID klienta wybranego zlecenia:" HorizontalAlignment="Left" Margin="118,625,0,0" VerticalAlignment="Top" Width="360" Height="36" FontSize="20"/>
+                <Label x:Name="lblWybranyzlecenieValue" Content="..." HorizontalAlignment="Left" Margin="473,625,0,0" VerticalAlignment="Top" Width="150" Height="36" FontSize="20" Loaded="lblWybranyzlecenieValue_Loaded"/>
+                <Label x:Name="lblWybranyurzadzenie" Content="Aktualne ID klienta wybranego urządzenia:" HorizontalAlignment="Left" Margin="99,625,0,0" VerticalAlignment="Top" Width="388" Height="36" FontSize="20" Grid.Column="1"/>
+                <Label x:Name="lblWybranyurzadzenieValue" Content="..." HorizontalAlignment="Left" Margin="480,625,0,0" VerticalAlignment="Top" Width="150" Height="36" FontSize="20" Grid.Column="1" Loaded="lblWybranyurzadzenieValue_Loaded"/>
+                <Button x:Name="btn_GetAllUrzadzenia_Copy" Content="Pokaz urządzenia zgodne z klientem przy zleceniu" Grid.Column="1" HorizontalAlignment="Left" Margin="123,3,0,0" VerticalAlignment="Top" Width="284" Click="btn_GetAllUrzadzenia_Copy_Click"/>
+                <Button x:Name="btn_GetAllZlecenia_Copy" Content="Pokaz zlecenia zgodne z klientem przy urządzeniu" HorizontalAlignment="Left" Margin="113,3,0,0" VerticalAlignment="Top" Width="280" Click="btn_GetAllZlecenia_Copy_Click"/>
+
+
+            </Grid>
+        </Viewbox>
+    </Border>
+</Window>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a1f942372ce349c98fd43a8ce3549434" Name="Diagram1">
+        <EntityTypeShape EntityType="SerwisKomputerowyModel.Klienci" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SerwisKomputerowyModel.Urządzenia" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SerwisKomputerowyModel.Usterki" Width="1.5" PointX="5.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SerwisKomputerowyModel.Zlecenia_dla_klienta" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
+        <AssociationConnector Association="SerwisKomputerowyModel.FK_Urządzenia_ToTable" ManuallyRouted="false" />
+        <AssociationConnector Association="SerwisKomputerowyModel.idKlienta_fk" ManuallyRouted="false" />
+        <AssociationConnector Association="SerwisKomputerowyModel.FK_Table_ToTable_1" ManuallyRouted="false" />
+        <AssociationConnector Association="SerwisKomputerowyModel.FK_Table_ToTable" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

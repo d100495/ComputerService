@@ -1,0 +1,112 @@
+﻿<Window x:Class="Wpf.UsterkiWindow"
+       xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wpf"
+        mc:Ignorable="d"
+        Title="Usterki" Height="720" Width="1280">
+    <Border Background="LightBlue">
+        <Viewbox Margin="10" >
+            <Grid Margin="0,10,0,10" Width="1280" Height="720" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="2*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                <!--Grid row 1:-->
+                <Button x:Name="btnPost" Content="Dodaj" HorizontalAlignment="Left" Margin="1114,256,0,0" VerticalAlignment="Top" Width="166" Click="btnPost_Click" Grid.Row="1" FontSize="20" Height="44"/>
+                <Button x:Name="btnGetAll" Content="Pokaż wszystkie usterki" HorizontalAlignment="Left" Margin="405,3,0,0" VerticalAlignment="Top" Width="152" Click="btnGetAll_Click" Grid.Row="1"/>
+                <Button x:Name="btnPut" Content="Zmien" HorizontalAlignment="Left" Margin="1114,369,0,0" VerticalAlignment="Top" Width="166" Grid.Row="1" FontSize="20" Height="44" Click="btnPut_Click"/>
+                <Button x:Name="btnDelete" Content="Usun" HorizontalAlignment="Left" Margin="1114,313,0,0" VerticalAlignment="Top" Width="166" Click="btnDelete_Click" Grid.Row="1" FontSize="20" Height="43"/>
+
+                <ListView x:Name="lstView1" ItemsSource="{Binding TrackCollection}" Loaded="lstView1_Loaded" Height="220" VerticalAlignment="Top" Margin="0,25,0,0" Grid.Row="1" SelectionChanged="lstView1_SelectionChanged" MouseDoubleClick="lstView1_MouseDoubleClick">
+                    <ListView.Resources>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Style.Triggers>
+
+                                <DataTrigger Binding="{Binding Path=idZlecenia_fk}" Value="{x:Null}">
+                                    <Setter Property="Background" Value="Pink" />
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding Path=idUrządzenia_fk}" Value="{x:Null}">
+                                    <Setter Property="Background" Value="Pink" />
+                                </DataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.Resources>
+
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Path= idUsterki}" Width="50px"/>
+                            <GridViewColumn Header="Rodzaj usterki" DisplayMemberBinding="{Binding Path= Rodzaj_usterki}" Width="150px"/>
+                            <GridViewColumn Header="Opis usterki" DisplayMemberBinding="{Binding Path= Opis_usterki}" Width="150px"/>
+                            <GridViewColumn Header="Wykonane prace" DisplayMemberBinding="{Binding Path= Wykonane_prace}" Width="200px"/>
+                            <GridViewColumn Header="Id zlecenia" DisplayMemberBinding="{Binding Path=idZlecenia_fk}" Width="100px"/>
+                            <GridViewColumn Header="Id urzadzenia" DisplayMemberBinding="{Binding Path=idUrządzenia_fk}" Width="100px"/>
+                        </GridView>
+                    </ListView.View>
+
+                </ListView>
+                <Button x:Name="btnPokazUsterkiUrzadzenia" Content="Pokaż usterki wybranego urządzenia" HorizontalAlignment="Left" Margin="0,3,0,0" VerticalAlignment="Top" Width="214" Click="btnPokazUsterkiUrzadzenia_Click" Grid.Row="1"/>
+
+                <!--Grid row 0:-->
+                <Image Source="/Resources/shad.png" Margin="-141,13,1126,477" Grid.RowSpan="2"/>
+                <Label x:Name="label_dataprzyjecia" Content="Data przyjęcia:" HorizontalAlignment="Left" Margin="42,51,0,0" VerticalAlignment="Top" Width="208" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="label_datawykonania" Content="Data wykonania:" HorizontalAlignment="Left" Margin="42,97,0,0" VerticalAlignment="Top" Width="208" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="label_koszt" Content="Koszt:" HorizontalAlignment="Left" Margin="42,143,0,0" VerticalAlignment="Top" Width="208" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="label_idklientazlecenia" Content="Id klienta zlecenia: " HorizontalAlignment="Left" Margin="41,189,0,0" VerticalAlignment="Top" Width="228" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="label_idzlecenia" Content="Id zlecenia:" HorizontalAlignment="Left" Margin="42,10,0,0" VerticalAlignment="Top" Width="208" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="lblUdataprzyjecia" Content="..." HorizontalAlignment="Left" Margin="217,51,0,0" VerticalAlignment="Top" Width="430" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="lblUdatawykonania" Content="..." HorizontalAlignment="Left" Margin="236,97,0,0" VerticalAlignment="Top" Width="411" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="lblUkoszt" Content="..." HorizontalAlignment="Left" Margin="118,143,0,0" VerticalAlignment="Top" Width="529" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="lblUidKlientaZlecenia" Content="..." HorizontalAlignment="Left" Margin="258,189,0,0" VerticalAlignment="Top" Width="389" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="lblUidzlecenia" Content="..." HorizontalAlignment="Left" Margin="173,10,0,0" VerticalAlignment="Top" Width="474" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0" Loaded="lblUidzlecenia_Loaded"/>
+
+                <TextBox x:Name="txt3_OpisUsterki"  HorizontalAlignment="Left"  Margin="565,281,0,-1" TextWrapping="Wrap"  Width="527" Grid.Row="1" VerticalAlignment="Top" Height="200" />
+                <TextBox x:Name="txt4_WykonanePrace"  VerticalAlignment="Top" 
+                    Margin="0,280,753,0" 
+                    TextWrapping="Wrap" 
+                    Grid.Row="1" 
+                    Height="200"/>
+
+                <ComboBox x:Name="ComboBox1_RodzajUsterki"  VerticalAlignment="Top" 
+                    Margin="1120,447,0,-1"
+                    Grid.Row="1" 
+                    Height="34" Loaded="txt1_RodzajUsterki_Loaded"/>
+
+
+
+
+                <Label x:Name="lblDatPrzyj" Content="Wybierz rodzaj usterki:" HorizontalAlignment="Left" Margin="1111,421,0,0" VerticalAlignment="Top" Width="144" Height="26" Grid.Row="1"/>
+                <Label x:Name="lblModel" Content="Wpisz opis usterki:" HorizontalAlignment="Left" Margin="557,254,0,0" VerticalAlignment="Top" Width="445" Height="27" Grid.Row="1"/>
+                <Label x:Name="lblDatWyk"  Content="Wpisz wykonane prace:" HorizontalAlignment="Left" Margin="-9,252,0,0" VerticalAlignment="Top" Width="547" Height="28" Grid.Row="1"/>
+
+
+
+                <Image Source="Resources/shad.png" Margin="508,16,477,474" Grid.RowSpan="2"/>
+                <Label x:Name="label_modelurzadzenia" Content="Model urządzenia:" HorizontalAlignment="Left" Margin="691,54,0,0" VerticalAlignment="Top" Width="225" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="label_paramteryurz" Content="Parametry:" HorizontalAlignment="Left" Margin="691,100,0,0" VerticalAlignment="Top" Width="208" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="label_rodzajurz" Content="Rodzaj urządzenia:" HorizontalAlignment="Left" Margin="691,146,0,0" VerticalAlignment="Top" Width="225" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="label_idklientaurzadzenia" Content="Id klienta urzadzenia: " HorizontalAlignment="Left" Margin="690,192,0,0" VerticalAlignment="Top" Width="259" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="label_idurzadzenia" Content="Id urządzenia:" HorizontalAlignment="Left" Margin="691,13,0,0" VerticalAlignment="Top" Width="208" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="lblUmodelurzadzenia" Content="..." HorizontalAlignment="Left" Margin="904,54,0,0" VerticalAlignment="Top" Width="376" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="lblUparamteryurzaadzenia" Content="..." HorizontalAlignment="Left" Margin="824,100,0,0" VerticalAlignment="Top" Width="456" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="lblUrodzajurzadzenia" Content="..." HorizontalAlignment="Left" Margin="910,146,0,0" VerticalAlignment="Top" Width="370" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="lblUidklientaUrzadzenia" Content="..." HorizontalAlignment="Left" Margin="938,192,0,0" VerticalAlignment="Top" Width="342" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="lblUidurzadzenia" Content="..." HorizontalAlignment="Left" Margin="855,13,0,0" VerticalAlignment="Top" Width="425" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0" Loaded="lblUidurzadzenia_Loaded"/>
+                <Button x:Name="btnNavigateZlecenia" Content="Zlecenia" HorizontalAlignment="Left" Margin="708,-21,0,0" VerticalAlignment="Top" Width="125" Height="22" Click="btnNavigateZlecenia_Click" FontWeight="Bold" Background="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                <Button x:Name="btnNavigateUrzadzenia" Content="Urządzenia" HorizontalAlignment="Left" Margin="583,-21,0,0" VerticalAlignment="Top" Width="125" Height="22" Click="btnNavigateUrzadzenia_Click" FontWeight="Bold" Background="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                <Button x:Name="btnNavigateKlienci" Content="Klienci" HorizontalAlignment="Left" Margin="458,-21,0,0" VerticalAlignment="Top" Width="125" Height="22" Click="btnNavigateKlienci_Click" FontWeight="Bold" Background="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                <Button x:Name="btnPokazUsterkiZlecenia" Content="Pokaż usterki wybranego zlecenia" HorizontalAlignment="Left" Margin="214,3,0,0" VerticalAlignment="Top" Width="191" Grid.Row="1" Click="btnPokazUsterkiZlecenia_Click"/>
+                <Button x:Name="btn_wybierzInne" Content="Wybierz inne zlecenie/urządzenie" HorizontalAlignment="Left" VerticalAlignment="Top" Width="199" Margin="1081,3,0,0" Click="btn_wybierzInne_Click" Grid.Row="1" Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}"/>
+
+            </Grid>
+        </Viewbox>
+    </Border>
+</Window>
