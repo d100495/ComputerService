@@ -29,8 +29,6 @@ namespace SerwisKomputerowy_v1.Controllers
         }
 
 
-
-
         [HttpGet]
         public IEnumerable<Zlecenia_dla_klientaDTO> GetAll()
         {
@@ -53,7 +51,7 @@ namespace SerwisKomputerowy_v1.Controllers
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> Post(Zlecenia_dla_klienta zlecenie)
+        public async Task<IHttpActionResult> Post(Zlecenia_dla_klienta order)
         {
             if (!ModelState.IsValid)
             {
@@ -61,16 +59,16 @@ namespace SerwisKomputerowy_v1.Controllers
             }
             else
             {
-                RepositoryService.repoInstance.PostOrder(zlecenie);
+                RepositoryService.repoInstance.PostOrder(order);
                 await RepositoryService.repoInstance.Save();
-                return Ok(zlecenie);
+                return Ok(order);
             }
 
         }
 
 
         [HttpPut]
-        public async Task<IHttpActionResult> Put(Zlecenia_dla_klienta zlecenie)
+        public async Task<IHttpActionResult> Put(Zlecenia_dla_klienta order)
         {
             if (!ModelState.IsValid)
             {
@@ -78,7 +76,7 @@ namespace SerwisKomputerowy_v1.Controllers
             }
             else
             {
-                RepositoryService.repoInstance.PutOrder(zlecenie);
+                RepositoryService.repoInstance.PutOrder(order);
                 try
                 {
                     await RepositoryService.repoInstance.Save();
@@ -88,7 +86,7 @@ namespace SerwisKomputerowy_v1.Controllers
                     throw ex;
                 }
 
-                return Ok(zlecenie);
+                return Ok(order);
             }
 
 

@@ -36,16 +36,16 @@ namespace SerwisKomputerowy_v1.Controllers
 
 
         [HttpGet]
-        public IEnumerable<UsterkiDTO> GetFlawsForDevice(int UrzadzenieId)
+        public IEnumerable<UsterkiDTO> GetFlawsForDevice(int deviceId)
         {
-            return RepositoryService.repoInstance.GetFlawsForDevice(UrzadzenieId);
+            return RepositoryService.repoInstance.GetFlawsForDevice(deviceId);
         }
 
 
         [HttpGet]
-        public IEnumerable<UsterkiDTO> GetFlawsForOrder(int zlecenieId)
+        public IEnumerable<UsterkiDTO> GetFlawsForOrder(int orderId)
         {
-            return RepositoryService.repoInstance.GetFlawsForOrder(zlecenieId);
+            return RepositoryService.repoInstance.GetFlawsForOrder(orderId);
         }
 
 
@@ -56,7 +56,7 @@ namespace SerwisKomputerowy_v1.Controllers
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> Post(Usterki usterka)
+        public async Task<IHttpActionResult> Post(Usterki flaw)
         {
             if (!ModelState.IsValid)
             {
@@ -64,16 +64,16 @@ namespace SerwisKomputerowy_v1.Controllers
             }
             else
             {
-                RepositoryService.repoInstance.PostFlaw(usterka);
+                RepositoryService.repoInstance.PostFlaw(flaw);
                 await RepositoryService.repoInstance.Save();
-                return Ok(usterka);
+                return Ok(flaw);
             }
 
         }
 
 
         [HttpPut]
-        public async Task<IHttpActionResult> Put(Usterki usterka)
+        public async Task<IHttpActionResult> Put(Usterki flaw)
         {
             if (!ModelState.IsValid)
             {
@@ -81,7 +81,7 @@ namespace SerwisKomputerowy_v1.Controllers
             }
             else
             {
-                RepositoryService.repoInstance.PutFlaw(usterka);
+                RepositoryService.repoInstance.PutFlaw(flaw);
                 try
                 {
                     await RepositoryService.repoInstance.Save();
@@ -91,7 +91,7 @@ namespace SerwisKomputerowy_v1.Controllers
                     throw ex;
                 }
 
-                return Ok(usterka);
+                return Ok(flaw);
             }
 
 

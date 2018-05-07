@@ -34,9 +34,9 @@ namespace SerwisKomputerowy_v1.Controllers
 
 
         [HttpGet]
-        public IEnumerable<Klienci> GetClientBySurname(string nazwisko)
+        public IEnumerable<Klienci> GetClientBySurname(string surname)
         {
-            return RepositoryService.repoInstance.GetClientBySurname(nazwisko);
+            return RepositoryService.repoInstance.GetClientBySurname(surname);
         }
 
         [HttpDelete]
@@ -48,7 +48,7 @@ namespace SerwisKomputerowy_v1.Controllers
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> Post(Klienci klient)
+        public async Task<IHttpActionResult> Post(Klienci client)
         {
             if (!ModelState.IsValid)
             {
@@ -56,15 +56,15 @@ namespace SerwisKomputerowy_v1.Controllers
             }
             else
             {
-                RepositoryService.repoInstance.PostClient(klient);
+                RepositoryService.repoInstance.PostClient(client);
                 await RepositoryService.repoInstance.Save();
-                return Ok(klient);
+                return Ok(client);
             }
 
         }
 
         [HttpPut]
-        public async Task<IHttpActionResult> Put(Klienci klient)
+        public async Task<IHttpActionResult> Put(Klienci client)
         {
             if (!ModelState.IsValid)
             {
@@ -72,7 +72,7 @@ namespace SerwisKomputerowy_v1.Controllers
             }
             else
             {
-                RepositoryService.repoInstance.PutClient(klient);
+                RepositoryService.repoInstance.PutClient(client);
                 try
                 {
                     await RepositoryService.repoInstance.Save();
@@ -82,7 +82,7 @@ namespace SerwisKomputerowy_v1.Controllers
                     throw ex;
                 }
 
-                return Ok(klient);
+                return Ok(client);
             }
 
 

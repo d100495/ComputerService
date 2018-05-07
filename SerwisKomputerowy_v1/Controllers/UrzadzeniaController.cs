@@ -59,7 +59,7 @@ namespace SerwisKomputerowy_v1.Controllers
 
 
         [HttpPost]
-        public async Task<IHttpActionResult> Post(Urządzenia Urzadzenie)
+        public async Task<IHttpActionResult> Post(Urządzenia device)
         {
             if (!ModelState.IsValid)
             {
@@ -68,9 +68,9 @@ namespace SerwisKomputerowy_v1.Controllers
             }
             else
             {
-                RepositoryService.repoInstance.PostDevice(Urzadzenie);
+                RepositoryService.repoInstance.PostDevice(device);
                 await RepositoryService.repoInstance.Save();
-                return Ok(Urzadzenie);
+                return Ok(device);
             }
 
         }
