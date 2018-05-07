@@ -18,7 +18,7 @@ namespace SerwisKomputerowy_v1.Controllers.Tests
         //}
 
         //[TestMethod()]
-        //public void DeleteUrzadzenieByFKTest()
+        //public void DeletedeviceByFKTest()
         //{
         //    throw new NotImplementedException();
         //}

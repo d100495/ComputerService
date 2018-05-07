@@ -25,7 +25,7 @@ namespace Wpf
         int? _idKlienta;
         bool pokazWszystkie = false;
 
-        private int ButtonDelay = Repozytorium.GlobalButtonDelay;
+        private int ButtonDelay = Repository.GlobalButtonDelay;
 
         public ZleceniaWindow()
         {
@@ -63,7 +63,7 @@ namespace Wpf
         private void DatePrzyjValidationTextBox(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[0123456789-:]");
-            if(!regex.IsMatch(e.Text))
+            if (!regex.IsMatch(e.Text))
             {
                 (sender as TextBox).Background = Brushes.Red;
                 lblDatPrzyj.Foreground = Brushes.Red;
@@ -95,7 +95,7 @@ namespace Wpf
         }
 
 
-        private bool SprawdzDate(String data)
+        private bool CheckDate(String data)
         {
             try
             {
@@ -112,14 +112,14 @@ namespace Wpf
 
 
 
-        private async Task Odswiez()
+        private async Task Refresh()
         {
-            if(pokazWszystkie==false)
+            if (pokazWszystkie == false)
             {
                 if (_idKlienta != null)
                 {
                     btnPut.Content = "Zmień";
-                    Task<IEnumerable<Zlecenie_dla_klienta>> task = new Task<IEnumerable<Zlecenie_dla_klienta>>(() => Repozytorium.repoInstance.GetZleceniaKlienta(urlStringGetZleceniaKlienta, _idKlienta));
+                    Task<IEnumerable<Zlecenie_dla_klienta>> task = new Task<IEnumerable<Zlecenie_dla_klienta>>(() => Repository.repoInstance.GetZleceniaKlienta(urlStringGetZleceniaKlienta, _idKlienta));
                     task.Start();
 
 
@@ -134,10 +134,10 @@ namespace Wpf
             }
 
 
-            if(pokazWszystkie==true)
+            if (pokazWszystkie == true)
             {
                 btnPut.Content = "Zmień i przypisz";
-                Task<IEnumerable<Zlecenie_dla_klienta>> task = new Task<IEnumerable<Zlecenie_dla_klienta>>(() => Repozytorium.repoInstance.GetAllZlecenia(urlStringGetAllZlecenia));
+                Task<IEnumerable<Zlecenie_dla_klienta>> task = new Task<IEnumerable<Zlecenie_dla_klienta>>(() => Repository.repoInstance.GetAllZlecenia(urlStringGetAllZlecenia));
                 task.Start();
 
 
@@ -160,24 +160,24 @@ namespace Wpf
 
 
         //URLs
-        public string urlStringGetAllZlecenia = Repozytorium.repoInstance.urlString + "Zlecenia_dla_klienta/GetAll";
-        public string urlStringGetZleceniaKlienta = Repozytorium.repoInstance.urlString + "Zlecenia_dla_klienta/GetZleceniaKlienta?klientId=";
-        public string urlStringDeleteZlecenie = Repozytorium.repoInstance.urlString + "Zlecenia_dla_klienta/Delete/";
-        public string urlStringPostZlecenie = Repozytorium.repoInstance.urlString + "Zlecenia_dla_klienta/Post";
-        public string urlStringPUTZlecenie = Repozytorium.repoInstance.urlString + "Zlecenia_dla_klienta/Put";
-        public string urlStringGetKlient = Repozytorium.repoInstance.urlString + "klienci/Get/";
+        public string urlStringGetAllZlecenia = Repository.repoInstance.urlString + "Zlecenia_dla_klienta/GetAll";
+        public string urlStringGetZleceniaKlienta = Repository.repoInstance.urlString + "Zlecenia_dla_klienta/GetZleceniaKlienta?clientId=";
+        public string urlStringDeleteZlecenie = Repository.repoInstance.urlString + "Zlecenia_dla_klienta/Delete/";
+        public string urlStringPostZlecenie = Repository.repoInstance.urlString + "Zlecenia_dla_klienta/Post";
+        public string urlStringPUTZlecenie = Repository.repoInstance.urlString + "Zlecenia_dla_klienta/Put";
+        public string urlStringGetKlient = Repository.repoInstance.urlString + "klienci/Get/";
 
         private async void btnGetAll_Click(object sender, RoutedEventArgs e)
         {
             pokazWszystkie = true;
-            await Odswiez();
+            await Refresh();
 
         }
 
         private async void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
             pokazWszystkie = false;
-            await Odswiez();
+            await Refresh();
         }
 
         private async void btnDelete_Click(object sender, RoutedEventArgs e)
@@ -187,11 +187,11 @@ namespace Wpf
 
                 int zz = ((Zlecenie_dla_klienta)lstView1.SelectedItem).idZlecenia;
 
-                Task task = new Task(() => Repozytorium.repoInstance.DeleteUrzadzenie(urlStringDeleteZlecenie, zz));
+                Task task = new Task(() => Repository.repoInstance.Deletedevice(urlStringDeleteZlecenie, zz));
                 task.Start();
 
                 await task;
-                await Odswiez();
+                await Refresh();
 
                 (sender as Button).IsEnabled = false;
                 await Task.Delay(ButtonDelay);
@@ -211,7 +211,7 @@ namespace Wpf
             {
                 datPrzyjecia = null;
             }
-            else if (SprawdzDate(txt1_datPrzyjecia.Text) == false)
+            else if (CheckDate(txt1_datPrzyjecia.Text) == false)
             {
                 isAbleToChange = false;
                 datPrzyjecia = null;
@@ -229,7 +229,7 @@ namespace Wpf
             {
                 datWykonania = null;
             }
-            else if (SprawdzDate(txt4_datWykonania.Text) == false)
+            else if (CheckDate(txt4_datWykonania.Text) == false)
             {
                 isAbleToChange = false;
                 datWykonania = null;
@@ -249,15 +249,15 @@ namespace Wpf
 
 
 
-            if (isAbleToChange == true && _idKlienta!=null)
+            if (isAbleToChange == true && _idKlienta != null)
             {
                 Zlecenie_dla_klienta zlecenie1 = new Zlecenie_dla_klienta(datPrzyjecia, datWykonania, Convert.ToDecimal(txt3_KosztCal.Text), _idKlienta);
 
-                Task task = new Task(() => Repozytorium.repoInstance.PostZlecenie(urlStringPostZlecenie, zlecenie1));
+                Task task = new Task(() => Repository.repoInstance.PostZlecenie(urlStringPostZlecenie, zlecenie1));
                 task.Start();
 
                 await task;
-                await Odswiez();
+                await Refresh();
 
                 (sender as Button).IsEnabled = false;
                 await Task.Delay(ButtonDelay);
@@ -271,27 +271,27 @@ namespace Wpf
             {
                 lstView1.Items.Clear();
 
-                foreach (var item in Repozytorium.repoInstance.GetZleceniaKlienta(urlStringGetZleceniaKlienta, _idKlienta))
+                foreach (var item in Repository.repoInstance.GetZleceniaKlienta(urlStringGetZleceniaKlienta, _idKlienta))
                 {
                     lstView1.Items.Add(item);
                 }
             }
         }
 
-   
+
 
         private void lblUid_Loaded(object sender, RoutedEventArgs e)
         {
 
             if (_idKlienta != null)
             {
-                Klient xx = Repozytorium.repoInstance.GetKlient(urlStringGetKlient, _idKlienta);
+                Klient xx = Repository.repoInstance.GetKlient(urlStringGetKlient, _idKlienta);
 
-                    lblUid.Content = xx.idKlienta;
-                    lblUim.Content = xx.Imie;
-                    lblUnazw.Content = xx.Nazwisko;
-                    lblUadr.Content = xx.Adres;
-                    lblUnrTel.Content = xx.Numer_telefonu;
+                lblUid.Content = xx.idKlienta;
+                lblUim.Content = xx.Imie;
+                lblUnazw.Content = xx.Nazwisko;
+                lblUadr.Content = xx.Adres;
+                lblUnrTel.Content = xx.Numer_telefonu;
 
             }
         }
@@ -307,7 +307,7 @@ namespace Wpf
             {
                 datPrzyjecia = null;
             }
-            else if(SprawdzDate(txt1_datPrzyjecia.Text) == false)
+            else if (CheckDate(txt1_datPrzyjecia.Text) == false)
             {
                 isAbleToChange = false;
                 datPrzyjecia = null;
@@ -321,11 +321,11 @@ namespace Wpf
 
 
 
-            if (string.IsNullOrEmpty(txt4_datWykonania.Text) || txt4_datWykonania.Text == "____-__-__ __:__:__" || string.IsNullOrWhiteSpace(txt1_datPrzyjecia.Text) )
+            if (string.IsNullOrEmpty(txt4_datWykonania.Text) || txt4_datWykonania.Text == "____-__-__ __:__:__" || string.IsNullOrWhiteSpace(txt1_datPrzyjecia.Text))
             {
                 datWykonania = null;
             }
-            else if (SprawdzDate(txt4_datWykonania.Text) == false)
+            else if (CheckDate(txt4_datWykonania.Text) == false)
             {
                 isAbleToChange = false;
                 datWykonania = null;
@@ -343,22 +343,22 @@ namespace Wpf
                 lblModel.Content = "Kwota nie może być pusta!";
             }
 
-            if(((Zlecenie_dla_klienta)lstView1.SelectedItem).Data_wykonania < System.DateTime.Now && ((Zlecenie_dla_klienta)lstView1.SelectedItem).Data_przyjęcia_zlecenia!=null)
+            if (((Zlecenie_dla_klienta)lstView1.SelectedItem).Data_wykonania < System.DateTime.Now && ((Zlecenie_dla_klienta)lstView1.SelectedItem).Data_przyjęcia_zlecenia != null)
             {
                 isAbleToChange = false;
                 MessageBox.Show("Zlecenie zostało zakończone!");
             }
-         
-            
-                if (lstView1.SelectedIndex != -1 && isAbleToChange==true && _idKlienta!=null)
-                {
-                    int zz = ((Zlecenie_dla_klienta)lstView1.SelectedItem).idZlecenia;
-                    Zlecenie_dla_klienta zlecenie1 = new Zlecenie_dla_klienta(zz, datPrzyjecia, datWykonania, Convert.ToDecimal(txt3_KosztCal.Text), _idKlienta);
-                    Task task = new Task(() => Repozytorium.repoInstance.PutZlecenie(urlStringPUTZlecenie, zlecenie1));
-                    task.Start();
 
-                    await task;
-                    await Odswiez();
+
+            if (lstView1.SelectedIndex != -1 && isAbleToChange == true && _idKlienta != null)
+            {
+                int zz = ((Zlecenie_dla_klienta)lstView1.SelectedItem).idZlecenia;
+                Zlecenie_dla_klienta zlecenie1 = new Zlecenie_dla_klienta(zz, datPrzyjecia, datWykonania, Convert.ToDecimal(txt3_KosztCal.Text), _idKlienta);
+                Task task = new Task(() => Repository.repoInstance.PutZlecenie(urlStringPUTZlecenie, zlecenie1));
+                task.Start();
+
+                await task;
+                await Refresh();
 
 
                 (sender as Button).IsEnabled = false;
@@ -387,17 +387,17 @@ namespace Wpf
             {
 
                 if (((Zlecenie_dla_klienta)lstView1.SelectedItem).idKlienta_fk != null)
-                { 
+                {
                     _idKlienta = ((Zlecenie_dla_klienta)lstView1.SelectedItem).idKlienta_fk;
 
-                    Klient xx = Repozytorium.repoInstance.GetKlient(urlStringGetKlient, _idKlienta);
+                    Klient xx = Repository.repoInstance.GetKlient(urlStringGetKlient, _idKlienta);
 
-              
-                        lblUid.Content = xx.idKlienta;
-                        lblUim.Content = xx.Imie;
-                        lblUnazw.Content = xx.Nazwisko;
-                        lblUadr.Content = xx.Adres;
-                        lblUnrTel.Content = xx.Numer_telefonu;
+
+                    lblUid.Content = xx.idKlienta;
+                    lblUim.Content = xx.Imie;
+                    lblUnazw.Content = xx.Nazwisko;
+                    lblUadr.Content = xx.Adres;
+                    lblUnrTel.Content = xx.Numer_telefonu;
                 }
                 else
                 {
@@ -408,7 +408,7 @@ namespace Wpf
                     lblUnrTel.Content = "Brak";
                 }
 
-                
+
 
             }
         }
@@ -416,7 +416,7 @@ namespace Wpf
 
         private void btnGoToUsterki_Click(object sender, RoutedEventArgs e)
         {
-          
+
             int? zz = ((Zlecenie_dla_klienta)lstView1.SelectedItem).idZlecenia;
             int? xx = ((Zlecenie_dla_klienta)lstView1.SelectedItem).idKlienta_fk;
 
@@ -429,7 +429,7 @@ namespace Wpf
             this.Close();
             window1.Show();
 
-       }
+        }
 
 
         private void btnNavigateKlienci_Click(object sender, RoutedEventArgs e)
@@ -443,7 +443,7 @@ namespace Wpf
             this.Close();
             window1.Show();
         }
-    
+
 
         private void btnNavigateUrzadzenia_Click(object sender, RoutedEventArgs e)
         {

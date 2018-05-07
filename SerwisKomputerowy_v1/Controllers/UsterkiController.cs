@@ -23,47 +23,36 @@ namespace SerwisKomputerowy_v1.Controllers
         public async Task<IHttpActionResult> Delete(int id)
         {
 
-            await SerwisRepo.repoInstance.DeleteUsterka(id);
-            await SerwisRepo.repoInstance.Save();
+            await RepositoryService.repoInstance.DeleteFlaw(id);
+            await RepositoryService.repoInstance.Save();
             return Ok(id);
         }
-
-
-        //[HttpDelete]
-        //public async Task<IHttpActionResult> DeleteUsterka(Usterki ust)
-        //{
-
-        //    await SerwisRepo.repoInstance.DeleteUsterka(ust);
-        //    await SerwisRepo.repoInstance.Save();
-        //    return Ok(ust);
-        //}
-
 
         [HttpGet]
         public IEnumerable<UsterkiDTO> GetAll()
         {
-            return SerwisRepo.repoInstance.GetAllUsterki();
+            return RepositoryService.repoInstance.GetAllUsterki();
         }
 
 
         [HttpGet]
-        public IEnumerable<UsterkiDTO> GeUsterkiUrzadzenia(int urzadzenieId)
+        public IEnumerable<UsterkiDTO> GeUsterkiUrzadzenia(int deviceId)
         {
-            return SerwisRepo.repoInstance.GetUsterkiUrzadzenia(urzadzenieId);
+            return RepositoryService.repoInstance.GetUsterkiUrzadzenia(deviceId);
         }
 
 
         [HttpGet]
         public IEnumerable<UsterkiDTO> GetUsterkiZlecenia(int zlecenieId)
         {
-            return SerwisRepo.repoInstance.GetUsterkiZlecenia(zlecenieId);
+            return RepositoryService.repoInstance.GetUsterkiZlecenia(zlecenieId);
         }
 
 
         [HttpGet]
         public async Task<Usterki> Get(int id)
         {
-            return await SerwisRepo.repoInstance.GetUsterkaById(id);
+            return await RepositoryService.repoInstance.GetUsterkaById(id);
         }
 
         [HttpPost]
@@ -75,11 +64,11 @@ namespace SerwisKomputerowy_v1.Controllers
             }
             else
             {
-                SerwisRepo.repoInstance.PostUsterka(usterka);
-                await SerwisRepo.repoInstance.Save();
+                RepositoryService.repoInstance.PostUsterka(usterka);
+                await RepositoryService.repoInstance.Save();
                 return Ok(usterka);
             }
-           
+
         }
 
 
@@ -92,10 +81,10 @@ namespace SerwisKomputerowy_v1.Controllers
             }
             else
             {
-                SerwisRepo.repoInstance.PutUsterka(usterka);
+                RepositoryService.repoInstance.PutUsterka(usterka);
                 try
                 {
-                    await SerwisRepo.repoInstance.Save();
+                    await RepositoryService.repoInstance.Save();
                 }
                 catch (DbUpdateConcurrencyException ex)
                 {

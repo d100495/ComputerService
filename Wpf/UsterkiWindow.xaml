@@ -60,7 +60,7 @@
                 <Label x:Name="label_dataprzyjecia" Content="Data przyjęcia:" HorizontalAlignment="Left" Margin="42,51,0,0" VerticalAlignment="Top" Width="208" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
                 <Label x:Name="label_datawykonania" Content="Data wykonania:" HorizontalAlignment="Left" Margin="42,97,0,0" VerticalAlignment="Top" Width="208" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
                 <Label x:Name="label_koszt" Content="Koszt:" HorizontalAlignment="Left" Margin="42,143,0,0" VerticalAlignment="Top" Width="208" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
-                <Label x:Name="label_idklientazlecenia" Content="Id klienta zlecenia: " HorizontalAlignment="Left" Margin="41,189,0,0" VerticalAlignment="Top" Width="228" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
+                <Label x:Name="label_idClientOrder" Content="Id klienta zlecenia: " HorizontalAlignment="Left" Margin="41,189,0,0" VerticalAlignment="Top" Width="228" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
                 <Label x:Name="label_idzlecenia" Content="Id zlecenia:" HorizontalAlignment="Left" Margin="42,10,0,0" VerticalAlignment="Top" Width="208" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
                 <Label x:Name="lblUdataprzyjecia" Content="..." HorizontalAlignment="Left" Margin="217,51,0,0" VerticalAlignment="Top" Width="430" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>
                 <Label x:Name="lblUdatawykonania" Content="..." HorizontalAlignment="Left" Margin="236,97,0,0" VerticalAlignment="Top" Width="411" Height="41" FontSize="24" FontWeight="Bold" Grid.Row="0"/>

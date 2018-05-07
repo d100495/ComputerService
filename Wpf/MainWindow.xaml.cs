@@ -23,29 +23,29 @@ namespace Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
-                public MainWindow()
-                {
-                    InitializeComponent();
+        public MainWindow()
+        {
+            InitializeComponent();
 
-                }
-
-
-        private int ButtonDelay = Repozytorium.GlobalButtonDelay;
+        }
 
 
-        public void Regexp(string re, TextBox tb,  Label lbl, string s)
+        private int ButtonDelay = Repository.GlobalButtonDelay;
+
+
+        public void Regexp(string re, TextBox tb, Label lbl, string s)
         {
             //Regex regex = new Regex(re);
 
             //if (regex.IsMatch(tb.Text))
             //{
-            
+
             //    lbl.ForeColor = Color.Green;
             //    lbl.Text = s + " Valid";
             //}
             //else
             //{
-               
+
             //    lbl.ForeColor = Color.Red;
             //    lbl.Text = s + " InValid";
             //}
@@ -59,7 +59,7 @@ namespace Wpf
 
             TextBox textboxsender = sender as TextBox;
 
-            if(string.IsNullOrEmpty(textboxsender.Text) || string.IsNullOrWhiteSpace(textboxsender.Text) || textboxsender.Text == "")
+            if (string.IsNullOrEmpty(textboxsender.Text) || string.IsNullOrWhiteSpace(textboxsender.Text) || textboxsender.Text == "")
             {
                 textboxsender.Background = Brushes.Red;
                 lblNrtel.Foreground = Brushes.Red;
@@ -71,8 +71,8 @@ namespace Wpf
                 lblNrtel.Foreground = Brushes.Black;
                 lblNrtel.Content = "Wpisz numer telefonu";
             }
-          
-             if (regex.IsMatch(e.Text))
+
+            if (regex.IsMatch(e.Text))
             {
                 textboxsender.Background = Brushes.Red;
                 lblNrtel.Foreground = Brushes.Red;
@@ -84,9 +84,9 @@ namespace Wpf
         }
 
 
-        private async Task Odswiez()
+        private async Task Refresh()
         {
-            Task<IEnumerable<Klient>> task = new Task<IEnumerable<Klient>>(() => Repozytorium.repoInstance.GetAllKlient(urlStringKlienci + "GetAll"));
+            Task<IEnumerable<Klient>> task = new Task<IEnumerable<Klient>>(() => Repository.repoInstance.GetAllKlient(urlStringKlienci + "GetAll"));
             task.Start();
 
 
@@ -103,15 +103,15 @@ namespace Wpf
 
 
         //URLs
-        public string urlStringKlienci = Repozytorium.repoInstance.urlString+"klienci/";
+        public string urlStringKlienci = Repository.repoInstance.urlString + "klienci/";
 
-        
-      
+
+
 
 
         private async void btnGetAll_Click(object sender, RoutedEventArgs e)
         {
-            await Odswiez();
+            await Refresh();
 
         }
 
@@ -123,7 +123,7 @@ namespace Wpf
             if (string.IsNullOrEmpty(txt4_NumerTel.Text) || string.IsNullOrWhiteSpace(txt4_NumerTel.Text))
             {
                 nrtel = null;
-              
+
             }
             else
             {
@@ -133,12 +133,12 @@ namespace Wpf
             if (lstView1.SelectedIndex != -1)
             {
                 int zz = ((Klient)lstView1.SelectedItem).idKlienta;
-                Klient urzadzenie1 = new Klient(zz, txt1_Nazwisko.Text, txt2_Imie.Text, txt3_Adres.Text, nrtel);
-                Task task = new Task(() => Repozytorium.repoInstance.PutKlient(urlStringKlienci + "Put", urzadzenie1));
+                Klient device1 = new Klient(zz, txt1_Nazwisko.Text, txt2_Imie.Text, txt3_Adres.Text, nrtel);
+                Task task = new Task(() => Repository.repoInstance.PutKlient(urlStringKlienci + "Put", device1));
                 task.Start();
 
                 await task;
-                await Odswiez();
+                await Refresh();
 
                 (sender as Button).IsEnabled = false;
                 await Task.Delay(ButtonDelay);
@@ -154,11 +154,11 @@ namespace Wpf
             {
                 int zz = ((Klient)lstView1.SelectedItem).idKlienta;
 
-                Task task = new Task(() => Repozytorium.repoInstance.DeleteKlient(urlStringKlienci + "Delete/", zz));
+                Task task = new Task(() => Repository.repoInstance.DeleteKlient(urlStringKlienci + "Delete/", zz));
                 task.Start();
 
                 await task;
-                await Odswiez();
+                await Refresh();
 
                 (sender as Button).IsEnabled = false;
                 await Task.Delay(ButtonDelay);
@@ -175,7 +175,7 @@ namespace Wpf
             if (string.IsNullOrEmpty(txt4_NumerTel.Text) || string.IsNullOrWhiteSpace(txt4_NumerTel.Text))
             {
                 nrtel = null;
-          
+
             }
             else
             {
@@ -186,11 +186,11 @@ namespace Wpf
 
             Klient klient1 = new Klient(txt1_Nazwisko.Text, txt2_Imie.Text, txt3_Adres.Text, nrtel);
 
-                Task task = new Task(() => Repozytorium.repoInstance.PostKlient(urlStringKlienci + "Post", klient1));
-                task.Start();
+            Task task = new Task(() => Repository.repoInstance.PostClient(urlStringKlienci + "Post", klient1));
+            task.Start();
 
-                await task;
-                await Odswiez();
+            await task;
+            await Refresh();
 
             (sender as Button).IsEnabled = false;
             await Task.Delay(ButtonDelay);
@@ -198,11 +198,11 @@ namespace Wpf
 
         }
 
-    
+
 
         private async void lstView1_Loaded(object sender, RoutedEventArgs e)
         {
-            Task<IEnumerable<Klient>> task = new Task<IEnumerable<Klient>>(() => Repozytorium.repoInstance.GetAllKlient(urlStringKlienci + "GetAll"));
+            Task<IEnumerable<Klient>> task = new Task<IEnumerable<Klient>>(() => Repository.repoInstance.GetAllKlient(urlStringKlienci + "GetAll"));
             task.Start();
 
 
@@ -217,27 +217,27 @@ namespace Wpf
 
         private void lstView1_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if(lstView1.SelectedIndex!=-1)
+            if (lstView1.SelectedIndex != -1)
             {
-                    var item = ((Klient)lstView1.SelectedItem).idKlienta;
+                var item = ((Klient)lstView1.SelectedItem).idKlienta;
 
-                
-                    UrzadzeniaWindow window1 = new UrzadzeniaWindow(item);
-                    window1.Top = this.Top;
-                    window1.Left = this.Left;
-                    window1.Width = this.Width;
-                    window1.Height = this.Height;
-                    window1.WindowState = this.WindowState;
 
-                   this.Close();
-                    window1.Show();
+                UrzadzeniaWindow window1 = new UrzadzeniaWindow(item);
+                window1.Top = this.Top;
+                window1.Left = this.Left;
+                window1.Width = this.Width;
+                window1.Height = this.Height;
+                window1.WindowState = this.WindowState;
 
-                
+                this.Close();
+                window1.Show();
+
+
             }
-           
-          
 
-     
+
+
+
 
 
         }
@@ -334,7 +334,7 @@ namespace Wpf
 
         private async void txtSearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Task<IEnumerable<Klient>> task = new Task<IEnumerable<Klient>>(() => Repozytorium.repoInstance.GetAllKlient(urlStringKlienci + "GetAll").Where(xz=>xz.Nazwisko.ToUpper().Contains(txtSearchBar.Text.ToUpper())));
+            Task<IEnumerable<Klient>> task = new Task<IEnumerable<Klient>>(() => Repository.repoInstance.GetAllKlient(urlStringKlienci + "GetAll").Where(xz => xz.Nazwisko.ToUpper().Contains(txtSearchBar.Text.ToUpper())));
             task.Start();
 
             var x = await task;

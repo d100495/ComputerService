@@ -23,8 +23,8 @@ namespace SerwisKomputerowy_v1.Controllers
         public async Task<IHttpActionResult> Delete(int id)
         {
 
-            await SerwisRepo.repoInstance.DeleteZlecenie(id);
-            await SerwisRepo.repoInstance.Save();
+            await RepositoryService.repoInstance.DeleteZlecenie(id);
+            await RepositoryService.repoInstance.Save();
             return Ok(id);
         }
 
@@ -34,14 +34,14 @@ namespace SerwisKomputerowy_v1.Controllers
         [HttpGet]
         public IEnumerable<Zlecenia_dla_klientaDTO> GetAll()
         {
-            return SerwisRepo.repoInstance.GetAllZlecenia();
+            return RepositoryService.repoInstance.GetAllZlecenia();
         }
 
 
         [HttpGet]
-        public IEnumerable<Zlecenia_dla_klientaDTO> GetZleceniaKlienta(int klientId)
+        public IEnumerable<Zlecenia_dla_klientaDTO> GetZleceniaKlienta(int clientId)
         {
-            return SerwisRepo.repoInstance.GetZleceniaKlienta(klientId);
+            return RepositoryService.repoInstance.GetZleceniaKlienta(clientId);
 
         }
 
@@ -49,7 +49,7 @@ namespace SerwisKomputerowy_v1.Controllers
         [HttpGet]
         public async Task<Zlecenia_dla_klienta> Get(int id)
         {
-            return await SerwisRepo.repoInstance.GetZlecenieById(id);
+            return await RepositoryService.repoInstance.GetZlecenieById(id);
         }
 
         [HttpPost]
@@ -61,11 +61,11 @@ namespace SerwisKomputerowy_v1.Controllers
             }
             else
             {
-                SerwisRepo.repoInstance.PostZlecenie(zlecenie);
-                await SerwisRepo.repoInstance.Save();
+                RepositoryService.repoInstance.PostZlecenie(zlecenie);
+                await RepositoryService.repoInstance.Save();
                 return Ok(zlecenie);
             }
-          
+
         }
 
 
@@ -78,10 +78,10 @@ namespace SerwisKomputerowy_v1.Controllers
             }
             else
             {
-                SerwisRepo.repoInstance.PutZlecenie(zlecenie);
+                RepositoryService.repoInstance.PutZlecenie(zlecenie);
                 try
                 {
-                    await SerwisRepo.repoInstance.Save();
+                    await RepositoryService.repoInstance.Save();
                 }
                 catch (DbUpdateConcurrencyException ex)
                 {

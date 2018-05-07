@@ -17,33 +17,33 @@ namespace SerwisKomputerowy_v1.Controllers
 {
     public class KlienciController : ApiController
     {
-        
+
 
         [HttpGet]
         public IEnumerable<KlientDTO> GetAll()
         {
-            return SerwisRepo.repoInstance.GetAllKlient();
+            return RepositoryService.repoInstance.GetAllKlient();
         }
 
 
         [HttpGet]
         public async Task<Klienci> Get(int id)
         {
-            return await SerwisRepo.repoInstance.GetKlientById(id);
+            return await RepositoryService.repoInstance.GetKlientById(id);
         }
 
 
         [HttpGet]
-        public IEnumerable<Klienci> GetKlientByNazwisko(string nazwisko)
+        public IEnumerable<Klienci> GetClientBySurname(string nazwisko)
         {
-            return SerwisRepo.repoInstance.GetKlientByNazwisko(nazwisko);
+            return RepositoryService.repoInstance.GetClientBySurname(nazwisko);
         }
 
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(int id)
         {
-            await SerwisRepo.repoInstance.DeleteKlient(id);
-            await SerwisRepo.repoInstance.Save();
+            await RepositoryService.repoInstance.DeleteKlient(id);
+            await RepositoryService.repoInstance.Save();
             return Ok(id);
         }
 
@@ -56,11 +56,11 @@ namespace SerwisKomputerowy_v1.Controllers
             }
             else
             {
-                SerwisRepo.repoInstance.PostKlient(klient);
-                await SerwisRepo.repoInstance.Save();
+                RepositoryService.repoInstance.PostClient(klient);
+                await RepositoryService.repoInstance.Save();
                 return Ok(klient);
             }
-          
+
         }
 
         [HttpPut]
@@ -72,10 +72,10 @@ namespace SerwisKomputerowy_v1.Controllers
             }
             else
             {
-                SerwisRepo.repoInstance.PutKlient(klient);
+                RepositoryService.repoInstance.PutKlient(klient);
                 try
                 {
-                    await SerwisRepo.repoInstance.Save();
+                    await RepositoryService.repoInstance.Save();
                 }
                 catch (DbUpdateConcurrencyException ex)
                 {
@@ -85,7 +85,7 @@ namespace SerwisKomputerowy_v1.Controllers
                 return Ok(klient);
             }
 
-           
+
 
         }
 

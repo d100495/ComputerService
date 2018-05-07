@@ -18,7 +18,7 @@ namespace SerwisKomputerowy_v1.Controllers.Tests
     public class KlienciControllerTests
     {
 
-        private Mock<SerwisRepo> mockRepository { get; set; }
+        private Mock<RepositoryService> mockRepository { get; set; }
         private KlienciController controller { get; set; }
 
 
@@ -30,9 +30,9 @@ namespace SerwisKomputerowy_v1.Controllers.Tests
 
             var result = await controller.Get(14);
 
-      
+
             Assert.AreEqual(14, result.idKlienta);
-            
+
         }
 
         [TestMethod]
