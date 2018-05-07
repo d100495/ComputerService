@@ -15,9 +15,6 @@ using Wpf.Modele;
 
 namespace Wpf
 {
-    /// <summary>
-    /// Interaction logic for WybierzWindow.xaml
-    /// </summary>
     public partial class WybierzWindow : Window
     {
         public WybierzWindow()
@@ -25,54 +22,34 @@ namespace Wpf
             InitializeComponent();
         }
 
-        int? _idKlientaZlecenia=null;
-        int? _idKlientaUrzadzenia=null;
-        int? _idUrzadzenia=null;
-        int? _idZlecenia=null;
+        int? _idClientOrder = null;
+        int? _idKlientaUrzadzenia = null;
+        int? _idUrzadzenia = null;
+        int? _idZlecenia = null;
 
         public WybierzWindow(int? idKlientaZlecenia, int? idKlientaUrzadzenia, int? idUrzadzenia, int? idZlecenia)
         {
             InitializeComponent();
 
             this._idKlientaUrzadzenia = idKlientaUrzadzenia;
-            this._idKlientaZlecenia = idKlientaZlecenia;
+            this._idClientOrder = idKlientaZlecenia;
             this._idUrzadzenia = idUrzadzenia;
             this._idZlecenia = idZlecenia;
         }
 
 
 
-        //URLs
-        public string urlStringGetAllUrzadzenia = Repozytorium.repoInstance.urlString + "urzadzenia/GetAll";
-        public string urlStringGetAllZlecenia = Repozytorium.repoInstance.urlString + "Zlecenia_dla_klienta/GetAll";
-
-
-        private async void lstView1_Loaded(object sender, RoutedEventArgs e)
-        {
-            //Task<IEnumerable<Zlecenie_dla_klienta>> task = new Task<IEnumerable<Zlecenie_dla_klienta>>(() => Repozytorium.repoInstance.GetAllZlecenia(urlStringGetAllZlecenia));
-            //task.Start();
-
-
-            //var x = await task;
-            //lstView1.Items.Clear();
-
-
-
-            //foreach (var item in x)
-            //{
-            //    lstView1.Items.Add(item);
-            //}
-        }
-        
+        public string urlStringGetAllDevices = Repository.repoInstance.urlString + "urzadzenia/GetAll";
+        public string urlStringGetAllOrders = Repository.repoInstance.urlString + "Zlecenia_dla_klienta/GetAll";
 
 
         void IdChecking()
         {
-            if (_idKlientaZlecenia != _idKlientaUrzadzenia && _idKlientaUrzadzenia != null)
+            if (_idClientOrder != _idKlientaUrzadzenia && _idKlientaUrzadzenia != null)
             {
                 lstView1.Background = Brushes.Pink;
             }
-            else if (_idKlientaZlecenia == _idKlientaUrzadzenia && _idKlientaUrzadzenia != null)
+            else if (_idClientOrder == _idKlientaUrzadzenia && _idKlientaUrzadzenia != null)
             {
                 lstView1.Background = Brushes.LightGreen;
             }
@@ -82,11 +59,11 @@ namespace Wpf
             }
 
 
-            if (_idKlientaUrzadzenia != _idKlientaZlecenia && _idKlientaZlecenia != null)
+            if (_idKlientaUrzadzenia != _idClientOrder && _idClientOrder != null)
             {
                 lstView2.Background = Brushes.Pink;
             }
-            else if (_idKlientaUrzadzenia == _idKlientaZlecenia && _idKlientaZlecenia != null)
+            else if (_idKlientaUrzadzenia == _idClientOrder && _idClientOrder != null)
             {
                 lstView2.Background = Brushes.LightGreen;
             }
@@ -107,8 +84,8 @@ namespace Wpf
             if (lstView1.SelectedIndex != -1)
             {
                 _idZlecenia = ((Zlecenie_dla_klienta)lstView1.SelectedItem).idZlecenia;
-                _idKlientaZlecenia = ((Zlecenie_dla_klienta)lstView1.SelectedItem).idKlienta_fk;
-                lblWybranyzlecenieValue.Content = _idKlientaZlecenia;
+                _idClientOrder = ((Zlecenie_dla_klienta)lstView1.SelectedItem).idKlienta_fk;
+                lblWybranyzlecenieValue.Content = _idClientOrder;
             }
             IdChecking();
         }
@@ -120,7 +97,7 @@ namespace Wpf
             {
                 _idUrzadzenia = ((Urzadzenie)lstView2.SelectedItem).idUrządzenia;
                 _idKlientaUrzadzenia = ((Urzadzenie)lstView2.SelectedItem).idKlienta_fk;
-                lblWybranyurzadzenieValue.Content = _idKlientaUrzadzenia;
+                lblWybranyUrzadzenieValue.Content = _idKlientaUrzadzenia;
             }
 
             IdChecking();
@@ -128,9 +105,9 @@ namespace Wpf
 
 
 
-        private async void btn_GetAllZlecenia_Click(object sender, RoutedEventArgs e)
+        private async void btn_GetAllOrders_Click(object sender, RoutedEventArgs e)
         {
-            Task<IEnumerable<Zlecenie_dla_klienta>> task = new Task<IEnumerable<Zlecenie_dla_klienta>>(() => Repozytorium.repoInstance.GetAllZlecenia(urlStringGetAllZlecenia));
+            Task<IEnumerable<Zlecenie_dla_klienta>> task = new Task<IEnumerable<Zlecenie_dla_klienta>>(() => Repository.repoInstance.GetAllOrders(urlStringGetAllOrders));
             task.Start();
 
 
@@ -146,9 +123,9 @@ namespace Wpf
         }
 
 
-        private async void btn_GetAllUrzadzenia_Click(object sender, RoutedEventArgs e)
+        private async void btn_GetAllDevices_Click(object sender, RoutedEventArgs e)
         {
-            Task<IEnumerable<Urzadzenie>> task = new Task<IEnumerable<Urzadzenie>>(() => Repozytorium.repoInstance.GetAllUrzadzenia(urlStringGetAllUrzadzenia));
+            Task<IEnumerable<Urzadzenie>> task = new Task<IEnumerable<Urzadzenie>>(() => Repository.repoInstance.GetAllDevices(urlStringGetAllDevices));
             task.Start();
 
 
@@ -163,29 +140,9 @@ namespace Wpf
             }
         }
 
-
-        private async void lstView2_Loaded(object sender, RoutedEventArgs e)
-        {
-
-            //Task<IEnumerable<Urzadzenie>> task = new Task<IEnumerable<Urzadzenie>>(() => Repozytorium.repoInstance.GetAllUrzadzenia(urlStringGetAllUrzadzenia));
-            //task.Start();
-
-
-            //var x = await task;
-            //lstView2.Items.Clear();
-
-
-
-            //foreach (var item in x)
-            //{
-            //    lstView2.Items.Add(item);
-            //}
-        }
-
-
         private void btn_Wybierz_Click(object sender, RoutedEventArgs e)
         {
-            UsterkiWindow window1 = new UsterkiWindow(_idZlecenia,_idUrzadzenia,_idKlientaZlecenia,_idKlientaUrzadzenia);
+            UsterkiWindow window1 = new UsterkiWindow(_idZlecenia, _idUrzadzenia, _idClientOrder, _idKlientaUrzadzenia);
             window1.Top = this.Top;
             window1.Left = this.Left;
             window1.Width = this.Width;
@@ -195,9 +152,9 @@ namespace Wpf
             window1.Show();
         }
 
-        private async void btn_GetAllZlecenia_Copy_Click(object sender, RoutedEventArgs e)
+        private async void btn_GetAllOrders_Copy_Click(object sender, RoutedEventArgs e)
         {
-            Task<IEnumerable<Zlecenie_dla_klienta>> task = new Task<IEnumerable<Zlecenie_dla_klienta>>(() => Repozytorium.repoInstance.GetAllZlecenia(urlStringGetAllZlecenia).Where(zx=>zx.idKlienta_fk==_idKlientaUrzadzenia));
+            Task<IEnumerable<Zlecenie_dla_klienta>> task = new Task<IEnumerable<Zlecenie_dla_klienta>>(() => Repository.repoInstance.GetAllOrders(urlStringGetAllOrders).Where(zx => zx.idKlienta_fk == _idKlientaUrzadzenia));
             task.Start();
 
 
@@ -212,9 +169,9 @@ namespace Wpf
             }
         }
 
-        private async void btn_GetAllUrzadzenia_Copy_Click(object sender, RoutedEventArgs e)
+        private async void btn_GetAllDevices_Copy_Click(object sender, RoutedEventArgs e)
         {
-            Task<IEnumerable<Urzadzenie>> task = new Task<IEnumerable<Urzadzenie>>(() => Repozytorium.repoInstance.GetAllUrzadzenia(urlStringGetAllUrzadzenia).Where(zx=>zx.idKlienta_fk==_idKlientaZlecenia));
+            Task<IEnumerable<Urzadzenie>> task = new Task<IEnumerable<Urzadzenie>>(() => Repository.repoInstance.GetAllDevices(urlStringGetAllDevices).Where(zx => zx.idKlienta_fk == _idClientOrder));
             task.Start();
 
 
@@ -231,12 +188,12 @@ namespace Wpf
 
         private void lblWybranyzlecenieValue_Loaded(object sender, RoutedEventArgs e)
         {
-            lblWybranyzlecenieValue.Content = _idKlientaZlecenia;
+            lblWybranyzlecenieValue.Content = _idClientOrder;
         }
 
-        private void lblWybranyurzadzenieValue_Loaded(object sender, RoutedEventArgs e)
+        private void lblWybranyUrzadzenieValue_Loaded(object sender, RoutedEventArgs e)
         {
-            lblWybranyurzadzenieValue.Content = _idKlientaUrzadzenia;
+            lblWybranyUrzadzenieValue.Content = _idKlientaUrzadzenia;
         }
     }
 }

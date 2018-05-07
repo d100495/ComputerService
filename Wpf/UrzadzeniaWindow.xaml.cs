@@ -24,12 +24,12 @@ namespace Wpf
         int? _idKlienta;
         bool pokazWszystkie = false;
 
-        private int ButtonDelay = Repozytorium.GlobalButtonDelay;
+        private int ButtonDelay = Repository.GlobalButtonDelay;
 
 
         public UrzadzeniaWindow()
         {
-            InitializeComponent();          
+            InitializeComponent();
 
         }
 
@@ -54,14 +54,14 @@ namespace Wpf
 
 
 
-        private async Task Odswiez()
+        private async Task Refresh()
         {
-            if(pokazWszystkie==false)
+            if (pokazWszystkie == false)
             {
                 if (_idKlienta != null)
                 {
                     btnPut.Content = "Zmień";
-                    Task<IEnumerable<Urzadzenie>> task = new Task<IEnumerable<Urzadzenie>>(() => Repozytorium.repoInstance.GetUrzadzeniaKlienta(urlStringGetUrzadzeniaKlienta, _idKlienta));
+                    Task<IEnumerable<Urzadzenie>> task = new Task<IEnumerable<Urzadzenie>>(() => Repository.repoInstance.GetClientDevices(urlStringGetClientDevices, _idKlienta));
                     task.Start();
 
 
@@ -75,10 +75,10 @@ namespace Wpf
                 }
             }
 
-            if(pokazWszystkie==true)
+            if (pokazWszystkie == true)
             {
                 btnPut.Content = "Zmień i przypisz";
-                Task<IEnumerable<Urzadzenie>> task = new Task<IEnumerable<Urzadzenie>>(() => Repozytorium.repoInstance.GetAllUrzadzenia(urlStringGetAllUrzadzenia));
+                Task<IEnumerable<Urzadzenie>> task = new Task<IEnumerable<Urzadzenie>>(() => Repository.repoInstance.GetAllDevices(urlStringGetAllDevices));
                 task.Start();
 
 
@@ -92,31 +92,31 @@ namespace Wpf
                     lstView1.Items.Add(item);
                 }
             }
-           
+
 
         }
 
-        
+
 
 
         //URLs
-        public string urlStringGetAllUrzadzenia = Repozytorium.repoInstance.urlString + "urzadzenia/GetAll";
-        public string urlStringGetUrzadzeniaKlienta = Repozytorium.repoInstance.urlString + "urzadzenia/GetUrzadzeniaKlienta?klientId=";
-        public string urlStringDeleteUrzadzenie = Repozytorium.repoInstance.urlString + "urzadzenia/Delete/";
-        public string urlStringPostUrzadzenie = Repozytorium.repoInstance.urlString + "urzadzenia/Post/";
-        public string urlStringPUTUrzadzenie = Repozytorium.repoInstance.urlString + "urzadzenia/Put/";
-        public string urlStringGetKlient = Repozytorium.repoInstance.urlString + "klienci/Get/";
+        public string urlStringGetAllDevices = Repository.repoInstance.urlString + "urzadzenia/GetAll";
+        public string urlStringGetClientDevices = Repository.repoInstance.urlString + "urzadzenia/GetClientDevices?clientId=";
+        public string urlStringDeleteDevice = Repository.repoInstance.urlString + "urzadzenia/Delete/";
+        public string urlStringPostDevice = Repository.repoInstance.urlString + "urzadzenia/Post/";
+        public string urlStringPutDevice = Repository.repoInstance.urlString + "urzadzenia/Put/";
+        public string urlStringGetKlient = Repository.repoInstance.urlString + "klienci/Get/";
 
         private async void btnGetAll_Click(object sender, RoutedEventArgs e)
         {
             pokazWszystkie = true;
-            await Odswiez();
+            await Refresh();
         }
 
         private async void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
             pokazWszystkie = false;
-            await Odswiez();
+            await Refresh();
         }
 
         private async void btnDelete_Click(object sender, RoutedEventArgs e)
@@ -126,11 +126,11 @@ namespace Wpf
 
                 int zz = ((Urzadzenie)lstView1.SelectedItem).idUrządzenia;
 
-                Task task = new Task(() => Repozytorium.repoInstance.DeleteUrzadzenie(urlStringDeleteUrzadzenie, zz));
+                Task task = new Task(() => Repository.repoInstance.DeleteDevice(urlStringDeleteDevice, zz));
                 task.Start();
 
                 await task;
-                await Odswiez();
+                await Refresh();
 
                 (sender as Button).IsEnabled = false;
                 await Task.Delay(ButtonDelay);
@@ -143,13 +143,13 @@ namespace Wpf
         {
             if (_idKlienta != null)
             {
-                Urzadzenie urzadzenie1 = new Urzadzenie(txt1_Rodzaj.Text, txt3_Model.Text, txt4_Parametry.Text, _idKlienta);
+                Urzadzenie Urzadzenie1 = new Urzadzenie(txt1_Rodzaj.Text, txt3_Model.Text, txt4_Parametry.Text, _idKlienta);
 
-                Task task = new Task(() => Repozytorium.repoInstance.PostUrzadzenie(urlStringPostUrzadzenie, urzadzenie1));
+                Task task = new Task(() => Repository.repoInstance.PostDevice(urlStringPostDevice, Urzadzenie1));
                 task.Start();
 
                 await task;
-                await Odswiez();
+                await Refresh();
 
                 (sender as Button).IsEnabled = false;
                 await Task.Delay(ButtonDelay);
@@ -163,7 +163,7 @@ namespace Wpf
             {
                 lstView1.Items.Clear();
 
-                foreach (var item in Repozytorium.repoInstance.GetUrzadzeniaKlienta(urlStringGetUrzadzeniaKlienta, _idKlienta))
+                foreach (var item in Repository.repoInstance.GetClientDevices(urlStringGetClientDevices, _idKlienta))
                 {
                     lstView1.Items.Add(item);
                 }
@@ -172,13 +172,13 @@ namespace Wpf
 
         //private void comboBoxID_Loaded(object sender, RoutedEventArgs e)
         //{
-        //    foreach (var x in Repozytorium.repoInstance.GetAllKlient(urlStringKlienciGetAll))
+        //    foreach (var x in Repozytorium.repoInstance.GetAllClients(urlStringKlienciGetAll))
         //    {
         //        comboBoxID.Items.Add(x.idKlienta);
 
         //    }
 
-        //    var klienty = Repozytorium.repoInstance.GetAllKlient(urlStringKlienciGetAll).Where(kli => kli.idKlienta.ToString().Equals(comboBoxID.Text));
+        //    var klienty = Repozytorium.repoInstance.GetAllClients(urlStringKlienciGetAll).Where(kli => kli.idKlienta.ToString().Equals(comboBoxID.Text));
 
         //    foreach (var xx in klienty)
         //    {
@@ -196,7 +196,7 @@ namespace Wpf
 
         //    var selectedId = Convert.ToInt32(comboBoxID.SelectedValue);
 
-        //    foreach (var item in Repozytorium.repoInstance.GetUrzadzeniaKlienta(urlStringGetUrzadzeniaKlienta, selectedId))
+        //    foreach (var item in Repozytorium.repoInstance.GetClientDevices(urlStringGetClientDevices, selectedId))
         //    {
         //        lstView1.Items.Add(item);
         //    }
@@ -207,7 +207,7 @@ namespace Wpf
 
         //    if(comboBoxID.SelectedIndex!=-1)
         //    {
-        //        var klienty = Repozytorium.repoInstance.GetAllKlient(urlStringKlienciGetAll).Where(kli => kli.idKlienta.ToString().Equals(comboBoxID.Text));
+        //        var klienty = Repozytorium.repoInstance.GetAllClients(urlStringKlienciGetAll).Where(kli => kli.idKlienta.ToString().Equals(comboBoxID.Text));
 
         //        foreach (var xx in klienty)
         //        {
@@ -218,11 +218,11 @@ namespace Wpf
 
         //        }
 
-                
+
 
         //        txt4_idklientaFk.Text= (comboBoxID.SelectedValue).ToString();
         //    }
-            
+
         //}
 
 
@@ -232,29 +232,29 @@ namespace Wpf
         {
             if (_idKlienta != null)
             {
-                Klient xx = Repozytorium.repoInstance.GetKlient(urlStringGetKlient, _idKlienta);
+                Klient xx = Repository.repoInstance.GetKlient(urlStringGetKlient, _idKlienta);
 
-            
-                    lblUid.Content = xx.idKlienta;
-                    lblUim.Content = xx.Imie;
-                    lblUnazw.Content = xx.Nazwisko;
-                    lblUadr.Content = xx.Adres;
-                    lblUnrTel.Content = xx.Numer_telefonu;
+
+                lblUid.Content = xx.idKlienta;
+                lblUim.Content = xx.Imie;
+                lblUnazw.Content = xx.Nazwisko;
+                lblUadr.Content = xx.Adres;
+                lblUnrTel.Content = xx.Numer_telefonu;
             }
         }
 
         private async void btnPut_Click(object sender, RoutedEventArgs e)
         {
-            if (lstView1.SelectedIndex != -1 && _idKlienta!=null)
+            if (lstView1.SelectedIndex != -1 && _idKlienta != null)
             {
-                
+
                 int zz = ((Urzadzenie)lstView1.SelectedItem).idUrządzenia;
-                Urzadzenie urzadzenie1 = new Urzadzenie(zz, txt1_Rodzaj.Text, txt3_Model.Text, txt4_Parametry.Text, _idKlienta);
-                Task task = new Task(() => Repozytorium.repoInstance.PutUrzadzenie(urlStringPUTUrzadzenie, urzadzenie1));
+                Urzadzenie Urzadzenie1 = new Urzadzenie(zz, txt1_Rodzaj.Text, txt3_Model.Text, txt4_Parametry.Text, _idKlienta);
+                Task task = new Task(() => Repository.repoInstance.PutDevice(urlStringPutDevice, Urzadzenie1));
                 task.Start();
 
                 await task;
-                await Odswiez();
+                await Refresh();
 
                 (sender as Button).IsEnabled = false;
                 await Task.Delay(ButtonDelay);
@@ -262,7 +262,7 @@ namespace Wpf
             }
 
 
-     
+
         }
 
         private void lstView1_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -285,16 +285,16 @@ namespace Wpf
                 {
                     _idKlienta = ((Urzadzenie)lstView1.SelectedItem).idKlienta_fk;
 
-                    Klient xx = Repozytorium.repoInstance.GetKlient(urlStringGetKlient, _idKlienta);
+                    Klient xx = Repository.repoInstance.GetKlient(urlStringGetKlient, _idKlienta);
 
-                 
-                        lblUid.Content = xx.idKlienta;
-                        lblUim.Content = xx.Imie;
-                        lblUnazw.Content = xx.Nazwisko;
-                        lblUadr.Content = xx.Adres;
-                        lblUnrTel.Content = xx.Numer_telefonu;
 
-                    
+                    lblUid.Content = xx.idKlienta;
+                    lblUim.Content = xx.Imie;
+                    lblUnazw.Content = xx.Nazwisko;
+                    lblUadr.Content = xx.Adres;
+                    lblUnrTel.Content = xx.Numer_telefonu;
+
+
 
                 }
                 else
@@ -306,7 +306,7 @@ namespace Wpf
                     lblUnrTel.Content = "Brak";
                 }
 
-                
+
 
             }
         }
@@ -316,7 +316,7 @@ namespace Wpf
             int? zz = ((Urzadzenie)lstView1.SelectedItem).idUrządzenia;
             int? xx = ((Urzadzenie)lstView1.SelectedItem).idKlienta_fk;
 
-            UsterkiWindow window1 = new UsterkiWindow(null,zz,null,xx);
+            UsterkiWindow window1 = new UsterkiWindow(null, zz, null, xx);
             window1.Top = this.Top;
             window1.Left = this.Left;
             window1.Width = this.Width;
@@ -370,9 +370,9 @@ namespace Wpf
 
 
 
-        //private async void btnGetAllUrzadzenia_Click(object sender, RoutedEventArgs e)
+        //private async void btnGetAllDevices_Click(object sender, RoutedEventArgs e)
         //{
-        //    Task<IEnumerable<Urzadzenie>> task = new Task<IEnumerable<Urzadzenie>>(() => Repozytorium.repoInstance.GetAllUrzadzenia(urlStringUrzadzenia + "GetAll"));
+        //    Task<IEnumerable<Urzadzenie>> task = new Task<IEnumerable<Urzadzenie>>(() => Repozytorium.repoInstance.GetAllDevices(urlStringUrzadzenia + "GetAll"));
         //    task.Start();
 
         //    lstView1.Items.Clear();

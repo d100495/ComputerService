@@ -21,16 +21,16 @@ namespace Wpf
     public partial class UsterkiWindow : Window
     {
 
-        int? _idKlientaZlecenia=null;
-        int? _idZlecenia=null;
+        int? _idClientOrder = null;
+        int? _idZlecenia = null;
         int? _idUrzadzenia = null;
-        int ?_idKlientaUrzadzenia=null;
+        int? _idKlientaUrzadzenia = null;
 
         bool pokazWszystkie = false;
         bool pokazUstdoUrzadzenia = false;
         bool pokazUstdoZlecenia = false;
 
-        private int ButtonDelay = Repozytorium.GlobalButtonDelay;
+        private int ButtonDelay = Repository.GlobalButtonDelay;
 
 
         public UsterkiWindow()
@@ -46,7 +46,7 @@ namespace Wpf
 
             this._idZlecenia = id_zlecenia;
             this._idUrzadzenia = id_urzadzenia;
-            this._idKlientaZlecenia = id_klientaZlecenia;
+            this._idClientOrder = id_klientaZlecenia;
             this._idKlientaUrzadzenia = id_klientaUrzadzenia;
         }
 
@@ -109,11 +109,11 @@ namespace Wpf
 
 
 
-        private async Task Odswiez()
+        private async Task Refresh()
         {
             if (pokazWszystkie == true)
             {
-                Task<IEnumerable<Usterka>> task = new Task<IEnumerable<Usterka>>(() => Repozytorium.repoInstance.GetAllUsterki(urlStringUsterkiGetAll));
+                Task<IEnumerable<Usterka>> task = new Task<IEnumerable<Usterka>>(() => Repository.repoInstance.GetAllFlaws(urlStringUsterkiGetAll));
                 task.Start();
 
 
@@ -126,11 +126,11 @@ namespace Wpf
                 }
             }
 
-            if(pokazUstdoUrzadzenia == true)
+            if (pokazUstdoUrzadzenia == true)
             {
                 if (_idUrzadzenia != null)
                 {
-                    Task<IEnumerable<Usterka>> task = new Task<IEnumerable<Usterka>>(() => Repozytorium.repoInstance.GetUsterkiUrzadzenia(urlStringGetUsterkiUrządzenia, _idUrzadzenia));
+                    Task<IEnumerable<Usterka>> task = new Task<IEnumerable<Usterka>>(() => Repository.repoInstance.GetFlawsForDevice(urlStringGetUsterkiUrządzenia, _idUrzadzenia));
                     task.Start();
 
 
@@ -148,7 +148,7 @@ namespace Wpf
             {
                 if (_idZlecenia != null)
                 {
-                    Task<IEnumerable<Usterka>> task = new Task<IEnumerable<Usterka>>(() => Repozytorium.repoInstance.GetUsterkiZlecenia(urlStringGetUsterkiZlecenia, _idZlecenia));
+                    Task<IEnumerable<Usterka>> task = new Task<IEnumerable<Usterka>>(() => Repository.repoInstance.GetFlawsForOrder(urlStringGetFlawsForOrder, _idZlecenia));
                     task.Start();
 
 
@@ -169,21 +169,21 @@ namespace Wpf
 
 
         //URLs
-        public string urlStringUsterkiGetAll = Repozytorium.repoInstance.urlString + "usterki/GetAll";
-        public string urlStringGetUsterkiUrządzenia = Repozytorium.repoInstance.urlString + "Usterki/GeUsterkiUrzadzenia?urzadzenieId=";
-        public string urlStringGetZlecenie = Repozytorium.repoInstance.urlString + "Zlecenia_dla_klienta/Get/";
-        public string urlStringGetUrzadzenie = Repozytorium.repoInstance.urlString + "Urzadzenia/Get/";
-        public string urlStringPostUsterka = Repozytorium.repoInstance.urlString + "Usterki/Post";
-        public string urlStringDeleteUsterka = Repozytorium.repoInstance.urlString + "Usterki/Delete/";
-        public string urlStringPutUsterka = Repozytorium.repoInstance.urlString + "Usterki/Put";
-        public string urlStringGetUsterkiZlecenia = Repozytorium.repoInstance.urlString + "Usterki/GetUsterkiZlecenia?zlecenieId=";
+        public string urlStringUsterkiGetAll = Repository.repoInstance.urlString + "usterki/GetAll";
+        public string urlStringGetUsterkiUrządzenia = Repository.repoInstance.urlString + "Usterki/GeUsterkiUrzadzenia?UrzadzenieId=";
+        public string urlStringGetZlecenie = Repository.repoInstance.urlString + "Zlecenia_dla_klienta/Get/";
+        public string urlStringGetUrzadzenie = Repository.repoInstance.urlString + "Urzadzenia/Get/";
+        public string urlStringPostFlaw = Repository.repoInstance.urlString + "Usterki/Post";
+        public string urlStringDeleteFlaw = Repository.repoInstance.urlString + "Usterki/Delete/";
+        public string urlStringPutFlaw = Repository.repoInstance.urlString + "Usterki/Put";
+        public string urlStringGetFlawsForOrder = Repository.repoInstance.urlString + "Usterki/GetFlawsForOrder?zlecenieId=";
 
         private async void btnGetAll_Click(object sender, RoutedEventArgs e)
         {
             pokazWszystkie = true;
             pokazUstdoUrzadzenia = false;
             pokazUstdoZlecenia = false;
-            await Odswiez();
+            await Refresh();
 
         }
 
@@ -192,9 +192,9 @@ namespace Wpf
             pokazUstdoUrzadzenia = false;
             pokazWszystkie = false;
             pokazUstdoZlecenia = true;
-            if(_idZlecenia!=null)
+            if (_idZlecenia != null)
             {
-                await Odswiez();
+                await Refresh();
             }
             else
             {
@@ -209,7 +209,7 @@ namespace Wpf
             pokazUstdoZlecenia = false;
             if (_idUrzadzenia != null)
             {
-                await Odswiez();
+                await Refresh();
             }
             else
             {
@@ -224,31 +224,31 @@ namespace Wpf
 
                 int zz = ((Usterka)lstView1.SelectedItem).idUsterki;
 
-                Task task = new Task(() => Repozytorium.repoInstance.DeleteUsterka(urlStringDeleteUsterka, zz));
+                Task task = new Task(() => Repository.repoInstance.DeleteFlaw(urlStringDeleteFlaw, zz));
                 task.Start();
 
                 await task;
-                await Odswiez();
+                await Refresh();
 
                 (sender as Button).IsEnabled = false;
                 await Task.Delay(ButtonDelay);
                 (sender as Button).IsEnabled = true;
             }
-            await Odswiez();
+            await Refresh();
         }
 
 
         private async void btnPost_Click(object sender, RoutedEventArgs e)
         {
-            if (_idKlientaUrzadzenia == _idKlientaZlecenia || _idKlientaUrzadzenia==null || _idKlientaZlecenia==null)
+            if (_idKlientaUrzadzenia == _idClientOrder || _idKlientaUrzadzenia == null || _idClientOrder == null)
             {
                 Usterka usterka1 = new Usterka(ComboBox1_RodzajUsterki.SelectedValue.ToString(), txt3_OpisUsterki.Text, txt4_WykonanePrace.Text, _idZlecenia, _idUrzadzenia);
 
-                Task task = new Task(() => Repozytorium.repoInstance.PostUsterka(urlStringPostUsterka, usterka1));
+                Task task = new Task(() => Repository.repoInstance.PostFlaw(urlStringPostFlaw, usterka1));
                 task.Start();
 
                 await task;
-                await Odswiez();
+                await Refresh();
 
                 (sender as Button).IsEnabled = false;
                 await Task.Delay(ButtonDelay);
@@ -258,14 +258,14 @@ namespace Wpf
             {
                 MessageBox.Show("Id klientów różnią się!");
             }
-            await Odswiez();
+            await Refresh();
         }
 
         private void lstView1_Loaded(object sender, RoutedEventArgs e)
         {
             //lstView1.Items.Clear();
 
-            //foreach (var item in Repozytorium.repoInstance.GetZleceniaKlienta(urlStringGetZleceniaKlienta, _idKlienta))
+            //foreach (var item in Repozytorium.repoInstance.GetClientOrders(urlStringGetClientOrders, _idKlienta))
             //{
             //    lstView1.Items.Add(item);
             //}
@@ -273,10 +273,9 @@ namespace Wpf
 
         private void lblUidzlecenia_Loaded(object sender, RoutedEventArgs e)
         {
-            if(_idUrzadzenia!=null)
+            if (_idUrzadzenia != null)
             {
-                Urzadzenie xx = Repozytorium.repoInstance.GetUrzadzenie(urlStringGetUrzadzenie, _idUrzadzenia);
-
+                Urzadzenie xx = Repository.repoInstance.GetUrzadzenie(urlStringGetUrzadzenie, _idUrzadzenia);
 
                 lblUidurzadzenia.Content = xx.idUrządzenia;
                 lblUmodelurzadzenia.Content = xx.Model_urządzenia;
@@ -289,37 +288,37 @@ namespace Wpf
             {
                 _idKlientaUrzadzenia = null;
             }
-           
+
         }
 
         private void lblUidurzadzenia_Loaded(object sender, RoutedEventArgs e)
         {
-            if(_idZlecenia!=null)
+            if (_idZlecenia != null)
             {
-                Zlecenie_dla_klienta xx = Repozytorium.repoInstance.GetZlecenie(urlStringGetZlecenie, _idZlecenia);
+                Zlecenie_dla_klienta xx = Repository.repoInstance.GetZlecenie(urlStringGetZlecenie, _idZlecenia);
 
                 lblUidzlecenia.Content = xx.idZlecenia;
                 lblUdataprzyjecia.Content = xx.Data_przyjęcia_zlecenia;
                 lblUdatawykonania.Content = xx.Data_wykonania;
                 lblUkoszt.Content = xx.Całkowity_koszt;
                 lblUidKlientaZlecenia.Content = xx.idKlienta_fk;
-                _idKlientaZlecenia = xx.idKlienta_fk;
+                _idClientOrder = xx.idKlienta_fk;
             }
             else
             {
-                _idKlientaZlecenia = null;
+                _idClientOrder = null;
             }
-         
+
         }
 
-      
+
 
         private async void btnPut_Click(object sender, RoutedEventArgs e)
         {
 
             bool isAbleToChange;
 
-            if (_idKlientaUrzadzenia == _idKlientaZlecenia || _idKlientaUrzadzenia == null || _idKlientaZlecenia == null)
+            if (_idKlientaUrzadzenia == _idClientOrder || _idKlientaUrzadzenia == null || _idClientOrder == null)
             {
                 isAbleToChange = true;
             }
@@ -327,7 +326,7 @@ namespace Wpf
             {
                 isAbleToChange = false;
                 MessageBox.Show("Id klientów różnią się!");
-                
+
             }
 
 
@@ -335,11 +334,11 @@ namespace Wpf
             {
                 int zz = ((Usterka)lstView1.SelectedItem).idUsterki;
                 Usterka usterka1 = new Usterka(zz, ComboBox1_RodzajUsterki.SelectedValue.ToString(), txt3_OpisUsterki.Text, txt4_WykonanePrace.Text, _idZlecenia, _idUrzadzenia);
-                Task task = new Task(() => Repozytorium.repoInstance.PutUsterka(urlStringPutUsterka, usterka1));
+                Task task = new Task(() => Repository.repoInstance.PutFlaw(urlStringPutFlaw, usterka1));
                 task.Start();
 
                 await task;
-                await Odswiez();
+                await Refresh();
 
 
                 (sender as Button).IsEnabled = false;
@@ -347,7 +346,7 @@ namespace Wpf
                 (sender as Button).IsEnabled = true;
             }
 
-            await Odswiez();
+            await Refresh();
 
         }
 
@@ -391,10 +390,10 @@ namespace Wpf
             window1.Show();
         }
 
-       
+
         private void btn_wybierzInne_Click(object sender, RoutedEventArgs e)
         {
-            WybierzWindow window1 = new WybierzWindow(_idKlientaZlecenia, _idKlientaUrzadzenia, _idUrzadzenia, _idZlecenia);
+            WybierzWindow window1 = new WybierzWindow(_idClientOrder, _idKlientaUrzadzenia, _idUrzadzenia, _idZlecenia);
             window1.Top = this.Top;
             window1.Left = this.Left;
             window1.Width = this.Width;
@@ -410,7 +409,7 @@ namespace Wpf
             if (lstView1.SelectedIndex != -1)
             {
 
-                ComboBox1_RodzajUsterki.SelectedValue=(((Usterka)lstView1.SelectedItem).Rodzaj_usterki.ToString());
+                ComboBox1_RodzajUsterki.SelectedValue = (((Usterka)lstView1.SelectedItem).Rodzaj_usterki.ToString());
 
 
                 txt3_OpisUsterki.Text = ((Usterka)lstView1.SelectedItem).Opis_usterki.ToString();
@@ -431,7 +430,7 @@ namespace Wpf
                 {
                     _idUrzadzenia = ((Usterka)lstView1.SelectedItem).idUrządzenia_fk;
 
-                    Urzadzenie xx = Repozytorium.repoInstance.GetUrzadzenie(urlStringGetUrzadzenie, _idUrzadzenia);
+                    Urzadzenie xx = Repository.repoInstance.GetUrzadzenie(urlStringGetUrzadzenie, _idUrzadzenia);
 
 
                     lblUidurzadzenia.Content = xx.idUrządzenia;
@@ -440,7 +439,7 @@ namespace Wpf
                     lblUparamteryurzaadzenia.Content = xx.Parametry_urządzenia;
                     lblUidklientaUrzadzenia.Content = xx.idKlienta_fk;
                     _idKlientaUrzadzenia = xx.idKlienta_fk;
-                    
+
                 }
                 else
                 {
@@ -462,14 +461,14 @@ namespace Wpf
                 {
                     _idZlecenia = ((Usterka)lstView1.SelectedItem).idZlecenia_fk;
 
-                    Zlecenie_dla_klienta xx = Repozytorium.repoInstance.GetZlecenie(urlStringGetZlecenie, _idZlecenia);
+                    Zlecenie_dla_klienta xx = Repository.repoInstance.GetZlecenie(urlStringGetZlecenie, _idZlecenia);
 
                     lblUidzlecenia.Content = xx.idZlecenia;
                     lblUdataprzyjecia.Content = xx.Data_przyjęcia_zlecenia;
                     lblUdatawykonania.Content = xx.Data_wykonania;
                     lblUkoszt.Content = xx.Całkowity_koszt;
                     lblUidKlientaZlecenia.Content = xx.idKlienta_fk;
-                    _idKlientaZlecenia = xx.idKlienta_fk;
+                    _idClientOrder = xx.idKlienta_fk;
                 }
                 else
                 {
@@ -480,7 +479,7 @@ namespace Wpf
                     lblUdatawykonania.Content = "Brak";
                     lblUkoszt.Content = "Brak";
                     lblUidKlientaZlecenia.Content = "Brak";
-                    _idKlientaZlecenia = null;
+                    _idClientOrder = null;
                 }
             }
         }
@@ -495,7 +494,7 @@ namespace Wpf
             ComboBox1_RodzajUsterki.SelectedIndex = 0;
         }
 
-       
+
 
     }
 }

@@ -18,7 +18,7 @@
                 </Grid.ColumnDefinitions>
 
 
-                <ListView x:Name="lstView1"  Loaded="lstView1_Loaded" MouseDoubleClick="lstView1_MouseDoubleClick" ItemsSource="{Binding TrackCollection}" Height="600" VerticalAlignment="Top" Margin="0,25,10,0"  SelectionChanged="lstView1_SelectionChanged">
+                <ListView x:Name="lstView1" MouseDoubleClick="lstView1_MouseDoubleClick" ItemsSource="{Binding TrackCollection}" Height="600" VerticalAlignment="Top" Margin="0,25,10,0"  SelectionChanged="lstView1_SelectionChanged">
                     <ListView.View >
                         <GridView >
                             <GridViewColumn Header="Id" DisplayMemberBinding="{Binding idZlecenia}" Width="50px"/>
@@ -30,7 +30,7 @@
                     </ListView.View>
                 </ListView>
 
-                <ListView x:Name="lstView2"  ItemsSource="{Binding TrackCollection}" Height="600" VerticalAlignment="Top" Margin="10,25,0,0"  Grid.Column="1" Loaded="lstView2_Loaded" SelectionChanged="lstView2_SelectionChanged">
+                <ListView x:Name="lstView2"  ItemsSource="{Binding TrackCollection}" Height="600" VerticalAlignment="Top" Margin="10,25,0,0"  Grid.Column="1" SelectionChanged="lstView2_SelectionChanged">
                     <ListView.View >
                         <GridView >
                             <GridViewColumn Header="Id" DisplayMemberBinding="{Binding idUrządzenia}" Width="40px"/>
@@ -41,15 +41,15 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <Button x:Name="btn_GetAllUrzadzenia" Content="Pokaż wszystkie" Grid.Column="1" HorizontalAlignment="Left" Margin="10,3,0,0" VerticalAlignment="Top" Width="113" Click="btn_GetAllUrzadzenia_Click"/>
-                <Button x:Name="btn_GetAllZlecenia" Content="Pokaż wszystkie" HorizontalAlignment="Left" Margin="0,3,0,0" VerticalAlignment="Top" Width="113" Click="btn_GetAllZlecenia_Click"/>
+                <Button x:Name="btn_GetAllDevices" Content="Pokaż wszystkie" Grid.Column="1" HorizontalAlignment="Left" Margin="10,3,0,0" VerticalAlignment="Top" Width="113" Click="btn_GetAllDevices_Click"/>
+                <Button x:Name="btn_GetAllOrders" Content="Pokaż wszystkie" HorizontalAlignment="Left" Margin="0,3,0,0" VerticalAlignment="Top" Width="113" Click="btn_GetAllOrders_Click"/>
                 <Button x:Name="btn_Wybierz" Grid.ColumnSpan="2" Content="Zatwierdź" HorizontalAlignment="Left" Height="44" Margin="473,666,0,0" VerticalAlignment="Top" Width="338" FontSize="22" FontWeight="Bold" Click="btn_Wybierz_Click"/>
                 <Label x:Name="lblWybranyzlecenie" Content="Aktualne ID klienta wybranego zlecenia:" HorizontalAlignment="Left" Margin="118,625,0,0" VerticalAlignment="Top" Width="360" Height="36" FontSize="20"/>
                 <Label x:Name="lblWybranyzlecenieValue" Content="..." HorizontalAlignment="Left" Margin="473,625,0,0" VerticalAlignment="Top" Width="150" Height="36" FontSize="20" Loaded="lblWybranyzlecenieValue_Loaded"/>
-                <Label x:Name="lblWybranyurzadzenie" Content="Aktualne ID klienta wybranego urządzenia:" HorizontalAlignment="Left" Margin="99,625,0,0" VerticalAlignment="Top" Width="388" Height="36" FontSize="20" Grid.Column="1"/>
-                <Label x:Name="lblWybranyurzadzenieValue" Content="..." HorizontalAlignment="Left" Margin="480,625,0,0" VerticalAlignment="Top" Width="150" Height="36" FontSize="20" Grid.Column="1" Loaded="lblWybranyurzadzenieValue_Loaded"/>
-                <Button x:Name="btn_GetAllUrzadzenia_Copy" Content="Pokaz urządzenia zgodne z klientem przy zleceniu" Grid.Column="1" HorizontalAlignment="Left" Margin="123,3,0,0" VerticalAlignment="Top" Width="284" Click="btn_GetAllUrzadzenia_Copy_Click"/>
-                <Button x:Name="btn_GetAllZlecenia_Copy" Content="Pokaz zlecenia zgodne z klientem przy urządzeniu" HorizontalAlignment="Left" Margin="113,3,0,0" VerticalAlignment="Top" Width="280" Click="btn_GetAllZlecenia_Copy_Click"/>
+                <Label x:Name="lblWybranyUrzadzenie" Content="Aktualne ID klienta wybranego urządzenia:" HorizontalAlignment="Left" Margin="99,625,0,0" VerticalAlignment="Top" Width="388" Height="36" FontSize="20" Grid.Column="1"/>
+                <Label x:Name="lblWybranyUrzadzenieValue" Content="..." HorizontalAlignment="Left" Margin="480,625,0,0" VerticalAlignment="Top" Width="150" Height="36" FontSize="20" Grid.Column="1" Loaded="lblWybranyUrzadzenieValue_Loaded"/>
+                <Button x:Name="btn_GetAllDevices_Copy" Content="Pokaz urządzenia zgodne z klientem przy zleceniu" Grid.Column="1" HorizontalAlignment="Left" Margin="123,3,0,0" VerticalAlignment="Top" Width="284" Click="btn_GetAllDevices_Copy_Click"/>
+                <Button x:Name="btn_GetAllOrders_Copy" Content="Pokaz zlecenia zgodne z klientem przy urządzeniu" HorizontalAlignment="Left" Margin="113,3,0,0" VerticalAlignment="Top" Width="280" Click="btn_GetAllOrders_Copy_Click"/>
 
 
             </Grid>
