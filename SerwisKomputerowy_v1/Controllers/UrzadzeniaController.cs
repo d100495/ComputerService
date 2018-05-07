@@ -21,7 +21,7 @@ namespace SerwisKomputerowy_v1.Controllers
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(int id)
         {
-            await RepositoryService.repoInstance.Deletedevice(id);
+            await RepositoryService.repoInstance.DeleteDevice(id);
             await RepositoryService.repoInstance.Save();
 
             return Ok(id);
@@ -29,9 +29,9 @@ namespace SerwisKomputerowy_v1.Controllers
 
 
         [HttpDelete]
-        public async Task<IHttpActionResult> DeletedeviceByFK(int fk)
+        public async Task<IHttpActionResult> DeleteDeviceByFK(int fk)
         {
-            await RepositoryService.repoInstance.DeletedeviceByFK(fk);
+            await RepositoryService.repoInstance.DeleteDeviceByFK(fk);
             await RepositoryService.repoInstance.Save();
 
             return Ok(fk);
@@ -40,26 +40,26 @@ namespace SerwisKomputerowy_v1.Controllers
         [HttpGet]
         public IEnumerable<UrządzeniaDTO> GetAll()
         {
-            return RepositoryService.repoInstance.GetAllUrzadzenia();
+            return RepositoryService.repoInstance.GetAllDevices();
         }
 
 
         [HttpGet]
-        public IEnumerable<UrządzeniaDTO> GetUrzadzeniaKlienta(int clientId)
+        public IEnumerable<UrządzeniaDTO> GetClientDevices(int clientId)
         {
-            return RepositoryService.repoInstance.GetUrzadzeniaKlienta(clientId);
+            return RepositoryService.repoInstance.GetClientDevices(clientId);
 
         }
 
         [HttpGet]
         public async Task<Urządzenia> Get(int id)
         {
-            return await RepositoryService.repoInstance.GetdeviceById(id);
+            return await RepositoryService.repoInstance.GetDeviceById(id);
         }
 
 
         [HttpPost]
-        public async Task<IHttpActionResult> Post(Urządzenia device)
+        public async Task<IHttpActionResult> Post(Urządzenia Urzadzenie)
         {
             if (!ModelState.IsValid)
             {
@@ -68,16 +68,16 @@ namespace SerwisKomputerowy_v1.Controllers
             }
             else
             {
-                RepositoryService.repoInstance.PostDevice(device);
+                RepositoryService.repoInstance.PostDevice(Urzadzenie);
                 await RepositoryService.repoInstance.Save();
-                return Ok(device);
+                return Ok(Urzadzenie);
             }
 
         }
 
 
         [HttpPut]
-        public async Task<IHttpActionResult> Put(Urządzenia device)
+        public async Task<IHttpActionResult> Put(Urządzenia Urzadzenie)
         {
             if (!ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace SerwisKomputerowy_v1.Controllers
             }
             else
             {
-                RepositoryService.repoInstance.Putdevice(device);
+                RepositoryService.repoInstance.PutDevice(Urzadzenie);
                 try
                 {
                     await RepositoryService.repoInstance.Save();
@@ -95,7 +95,7 @@ namespace SerwisKomputerowy_v1.Controllers
                     throw ex;
                 }
 
-                return Ok(device);
+                return Ok(Urzadzenie);
             }
 
 

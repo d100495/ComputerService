@@ -18,7 +18,7 @@ namespace SerwisKomputerowy_v1.Controllers.Tests
         //}
 
         //[TestMethod()]
-        //public void DeletedeviceByFKTest()
+        //public void DeleteDeviceByFKTest()
         //{
         //    throw new NotImplementedException();
         //}
@@ -30,7 +30,7 @@ namespace SerwisKomputerowy_v1.Controllers.Tests
         //}
 
         //[TestMethod()]
-        //public void GetUrzadzeniaKlientaTest()
+        //public void GetClientDevicesTest()
         //{
         //    throw new NotImplementedException();
         //}

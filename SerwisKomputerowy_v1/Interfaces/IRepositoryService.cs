@@ -8,33 +8,33 @@ namespace SerwisKomputerowy_v1.Repozytoria
 {
     public interface IRepositoryService
     {
-        Task<Klienci> DeleteKlient(int id);
-        Task<Urządzenia> Deletedevice(int id);
-        Task<Urządzenia> DeletedeviceByFK(int fk);
+        Task<Klienci> DeleteClient(int id);
+        Task<Urządzenia> DeleteDevice(int id);
+        Task<Urządzenia> DeleteDeviceByFK(int fk);
         Task<Usterki> DeleteFlaw(int id);
-        Task<Zlecenia_dla_klienta> DeleteZlecenie(int id);
+        Task<Zlecenia_dla_klienta> DeleteOrder(int id);
         void Dispose();
-        IEnumerable<KlientDTO> GetAllKlient();
-        IEnumerable<UrządzeniaDTO> GetAllUrzadzenia();
-        IEnumerable<UsterkiDTO> GetAllUsterki();
-        IEnumerable<Zlecenia_dla_klientaDTO> GetAllZlecenia();
-        Task<Klienci> GetKlientById(int id);
+        IEnumerable<KlientDTO> GetAllClients();
+        IEnumerable<UrządzeniaDTO> GetAllDevices();
+        IEnumerable<UsterkiDTO> GetAllFlaws();
+        IEnumerable<Zlecenia_dla_klientaDTO> GetAllOrders();
+        Task<Klienci> GetClientById(int id);
         IEnumerable<Klienci> GetClientBySurname(string nazwisko);
-        IEnumerable<UrządzeniaDTO> GetUrzadzeniaKlienta(int clientId);
-        Task<Urządzenia> GetdeviceById(int id);
-        Task<Usterki> GetUsterkaById(int id);
-        IEnumerable<UsterkiDTO> GetUsterkiUrzadzenia(int idurzadzenia);
-        IEnumerable<UsterkiDTO> GetUsterkiZlecenia(int idzlecenia);
-        IEnumerable<Zlecenia_dla_klientaDTO> GetZleceniaKlienta(int clientId);
-        Task<Zlecenia_dla_klienta> GetZlecenieById(int id);
+        IEnumerable<UrządzeniaDTO> GetClientDevices(int clientId);
+        Task<Urządzenia> GetDeviceById(int id);
+        Task<Usterki> GetFlawById(int id);
+        IEnumerable<UsterkiDTO> GetFlawsForDevice(int idurzadzenia);
+        IEnumerable<UsterkiDTO> GetFlawsForOrder(int idzlecenia);
+        IEnumerable<Zlecenia_dla_klientaDTO> GetClientOrders(int clientId);
+        Task<Zlecenia_dla_klienta> GetOrderById(int id);
         Klienci PostClient(Klienci klient);
-        Urządzenia PostDevice(Urządzenia device);
-        Usterki PostUsterka(Usterki usterka);
-        Zlecenia_dla_klienta PostZlecenie(Zlecenia_dla_klienta zlecenie);
-        EntityState PutKlient(Klienci klient);
-        EntityState Putdevice(Urządzenia klient);
-        EntityState PutUsterka(Usterki usterka);
-        EntityState PutZlecenie(Zlecenia_dla_klienta zlecenie);
+        Urządzenia PostDevice(Urządzenia Urzadzenie);
+        Usterki PostFlaw(Usterki usterka);
+        Zlecenia_dla_klienta PostOrder(Zlecenia_dla_klienta zlecenie);
+        EntityState PutClient(Klienci klient);
+        EntityState PutDevice(Urządzenia klient);
+        EntityState PutFlaw(Usterki usterka);
+        EntityState PutOrder(Zlecenia_dla_klienta zlecenie);
         Task Save();
     }
 }

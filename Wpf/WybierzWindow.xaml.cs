@@ -39,8 +39,8 @@ namespace Wpf
 
 
 
-        public string urlStringGetAllUrzadzenia = Repository.repoInstance.urlString + "urzadzenia/GetAll";
-        public string urlStringGetAllZlecenia = Repository.repoInstance.urlString + "Zlecenia_dla_klienta/GetAll";
+        public string urlStringGetAllDevices = Repository.repoInstance.urlString + "urzadzenia/GetAll";
+        public string urlStringGetAllOrders = Repository.repoInstance.urlString + "Zlecenia_dla_klienta/GetAll";
 
 
         void IdChecking()
@@ -95,9 +95,9 @@ namespace Wpf
         {
             if (lstView2.SelectedIndex != -1)
             {
-                _idUrzadzenia = ((device)lstView2.SelectedItem).idUrządzenia;
-                _idKlientaUrzadzenia = ((device)lstView2.SelectedItem).idKlienta_fk;
-                lblWybranydeviceValue.Content = _idKlientaUrzadzenia;
+                _idUrzadzenia = ((Urzadzenie)lstView2.SelectedItem).idUrządzenia;
+                _idKlientaUrzadzenia = ((Urzadzenie)lstView2.SelectedItem).idKlienta_fk;
+                lblWybranyUrzadzenieValue.Content = _idKlientaUrzadzenia;
             }
 
             IdChecking();
@@ -105,9 +105,9 @@ namespace Wpf
 
 
 
-        private async void btn_GetAllZlecenia_Click(object sender, RoutedEventArgs e)
+        private async void btn_GetAllOrders_Click(object sender, RoutedEventArgs e)
         {
-            Task<IEnumerable<Zlecenie_dla_klienta>> task = new Task<IEnumerable<Zlecenie_dla_klienta>>(() => Repository.repoInstance.GetAllZlecenia(urlStringGetAllZlecenia));
+            Task<IEnumerable<Zlecenie_dla_klienta>> task = new Task<IEnumerable<Zlecenie_dla_klienta>>(() => Repository.repoInstance.GetAllOrders(urlStringGetAllOrders));
             task.Start();
 
 
@@ -123,9 +123,9 @@ namespace Wpf
         }
 
 
-        private async void btn_GetAllUrzadzenia_Click(object sender, RoutedEventArgs e)
+        private async void btn_GetAllDevices_Click(object sender, RoutedEventArgs e)
         {
-            Task<IEnumerable<device>> task = new Task<IEnumerable<device>>(() => Repository.repoInstance.GetAllUrzadzenia(urlStringGetAllUrzadzenia));
+            Task<IEnumerable<Urzadzenie>> task = new Task<IEnumerable<Urzadzenie>>(() => Repository.repoInstance.GetAllDevices(urlStringGetAllDevices));
             task.Start();
 
 
@@ -152,9 +152,9 @@ namespace Wpf
             window1.Show();
         }
 
-        private async void btn_GetAllZlecenia_Copy_Click(object sender, RoutedEventArgs e)
+        private async void btn_GetAllOrders_Copy_Click(object sender, RoutedEventArgs e)
         {
-            Task<IEnumerable<Zlecenie_dla_klienta>> task = new Task<IEnumerable<Zlecenie_dla_klienta>>(() => Repository.repoInstance.GetAllZlecenia(urlStringGetAllZlecenia).Where(zx => zx.idKlienta_fk == _idKlientaUrzadzenia));
+            Task<IEnumerable<Zlecenie_dla_klienta>> task = new Task<IEnumerable<Zlecenie_dla_klienta>>(() => Repository.repoInstance.GetAllOrders(urlStringGetAllOrders).Where(zx => zx.idKlienta_fk == _idKlientaUrzadzenia));
             task.Start();
 
 
@@ -169,9 +169,9 @@ namespace Wpf
             }
         }
 
-        private async void btn_GetAllUrzadzenia_Copy_Click(object sender, RoutedEventArgs e)
+        private async void btn_GetAllDevices_Copy_Click(object sender, RoutedEventArgs e)
         {
-            Task<IEnumerable<device>> task = new Task<IEnumerable<device>>(() => Repository.repoInstance.GetAllUrzadzenia(urlStringGetAllUrzadzenia).Where(zx => zx.idKlienta_fk == _idClientOrder));
+            Task<IEnumerable<Urzadzenie>> task = new Task<IEnumerable<Urzadzenie>>(() => Repository.repoInstance.GetAllDevices(urlStringGetAllDevices).Where(zx => zx.idKlienta_fk == _idClientOrder));
             task.Start();
 
 
@@ -191,9 +191,9 @@ namespace Wpf
             lblWybranyzlecenieValue.Content = _idClientOrder;
         }
 
-        private void lblWybranydeviceValue_Loaded(object sender, RoutedEventArgs e)
+        private void lblWybranyUrzadzenieValue_Loaded(object sender, RoutedEventArgs e)
         {
-            lblWybranydeviceValue.Content = _idKlientaUrzadzenia;
+            lblWybranyUrzadzenieValue.Content = _idKlientaUrzadzenia;
         }
     }
 }

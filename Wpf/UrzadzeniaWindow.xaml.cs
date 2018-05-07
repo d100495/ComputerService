@@ -61,7 +61,7 @@ namespace Wpf
                 if (_idKlienta != null)
                 {
                     btnPut.Content = "Zmień";
-                    Task<IEnumerable<device>> task = new Task<IEnumerable<device>>(() => Repository.repoInstance.GetUrzadzeniaKlienta(urlStringGetUrzadzeniaKlienta, _idKlienta));
+                    Task<IEnumerable<Urzadzenie>> task = new Task<IEnumerable<Urzadzenie>>(() => Repository.repoInstance.GetClientDevices(urlStringGetClientDevices, _idKlienta));
                     task.Start();
 
 
@@ -78,7 +78,7 @@ namespace Wpf
             if (pokazWszystkie == true)
             {
                 btnPut.Content = "Zmień i przypisz";
-                Task<IEnumerable<device>> task = new Task<IEnumerable<device>>(() => Repository.repoInstance.GetAllUrzadzenia(urlStringGetAllUrzadzenia));
+                Task<IEnumerable<Urzadzenie>> task = new Task<IEnumerable<Urzadzenie>>(() => Repository.repoInstance.GetAllDevices(urlStringGetAllDevices));
                 task.Start();
 
 
@@ -100,11 +100,11 @@ namespace Wpf
 
 
         //URLs
-        public string urlStringGetAllUrzadzenia = Repository.repoInstance.urlString + "urzadzenia/GetAll";
-        public string urlStringGetUrzadzeniaKlienta = Repository.repoInstance.urlString + "urzadzenia/GetUrzadzeniaKlienta?clientId=";
-        public string urlStringDeletedevice = Repository.repoInstance.urlString + "urzadzenia/Delete/";
+        public string urlStringGetAllDevices = Repository.repoInstance.urlString + "urzadzenia/GetAll";
+        public string urlStringGetClientDevices = Repository.repoInstance.urlString + "urzadzenia/GetClientDevices?clientId=";
+        public string urlStringDeleteDevice = Repository.repoInstance.urlString + "urzadzenia/Delete/";
         public string urlStringPostDevice = Repository.repoInstance.urlString + "urzadzenia/Post/";
-        public string urlStringPUTdevice = Repository.repoInstance.urlString + "urzadzenia/Put/";
+        public string urlStringPutDevice = Repository.repoInstance.urlString + "urzadzenia/Put/";
         public string urlStringGetKlient = Repository.repoInstance.urlString + "klienci/Get/";
 
         private async void btnGetAll_Click(object sender, RoutedEventArgs e)
@@ -124,9 +124,9 @@ namespace Wpf
             if (lstView1.SelectedIndex != -1)
             {
 
-                int zz = ((device)lstView1.SelectedItem).idUrządzenia;
+                int zz = ((Urzadzenie)lstView1.SelectedItem).idUrządzenia;
 
-                Task task = new Task(() => Repository.repoInstance.Deletedevice(urlStringDeletedevice, zz));
+                Task task = new Task(() => Repository.repoInstance.DeleteDevice(urlStringDeleteDevice, zz));
                 task.Start();
 
                 await task;
@@ -143,9 +143,9 @@ namespace Wpf
         {
             if (_idKlienta != null)
             {
-                device device1 = new device(txt1_Rodzaj.Text, txt3_Model.Text, txt4_Parametry.Text, _idKlienta);
+                Urzadzenie Urzadzenie1 = new Urzadzenie(txt1_Rodzaj.Text, txt3_Model.Text, txt4_Parametry.Text, _idKlienta);
 
-                Task task = new Task(() => Repository.repoInstance.PostDevice(urlStringPostDevice, device1));
+                Task task = new Task(() => Repository.repoInstance.PostDevice(urlStringPostDevice, Urzadzenie1));
                 task.Start();
 
                 await task;
@@ -163,7 +163,7 @@ namespace Wpf
             {
                 lstView1.Items.Clear();
 
-                foreach (var item in Repository.repoInstance.GetUrzadzeniaKlienta(urlStringGetUrzadzeniaKlienta, _idKlienta))
+                foreach (var item in Repository.repoInstance.GetClientDevices(urlStringGetClientDevices, _idKlienta))
                 {
                     lstView1.Items.Add(item);
                 }
@@ -172,13 +172,13 @@ namespace Wpf
 
         //private void comboBoxID_Loaded(object sender, RoutedEventArgs e)
         //{
-        //    foreach (var x in Repozytorium.repoInstance.GetAllKlient(urlStringKlienciGetAll))
+        //    foreach (var x in Repozytorium.repoInstance.GetAllClients(urlStringKlienciGetAll))
         //    {
         //        comboBoxID.Items.Add(x.idKlienta);
 
         //    }
 
-        //    var klienty = Repozytorium.repoInstance.GetAllKlient(urlStringKlienciGetAll).Where(kli => kli.idKlienta.ToString().Equals(comboBoxID.Text));
+        //    var klienty = Repozytorium.repoInstance.GetAllClients(urlStringKlienciGetAll).Where(kli => kli.idKlienta.ToString().Equals(comboBoxID.Text));
 
         //    foreach (var xx in klienty)
         //    {
@@ -196,7 +196,7 @@ namespace Wpf
 
         //    var selectedId = Convert.ToInt32(comboBoxID.SelectedValue);
 
-        //    foreach (var item in Repozytorium.repoInstance.GetUrzadzeniaKlienta(urlStringGetUrzadzeniaKlienta, selectedId))
+        //    foreach (var item in Repozytorium.repoInstance.GetClientDevices(urlStringGetClientDevices, selectedId))
         //    {
         //        lstView1.Items.Add(item);
         //    }
@@ -207,7 +207,7 @@ namespace Wpf
 
         //    if(comboBoxID.SelectedIndex!=-1)
         //    {
-        //        var klienty = Repozytorium.repoInstance.GetAllKlient(urlStringKlienciGetAll).Where(kli => kli.idKlienta.ToString().Equals(comboBoxID.Text));
+        //        var klienty = Repozytorium.repoInstance.GetAllClients(urlStringKlienciGetAll).Where(kli => kli.idKlienta.ToString().Equals(comboBoxID.Text));
 
         //        foreach (var xx in klienty)
         //        {
@@ -248,9 +248,9 @@ namespace Wpf
             if (lstView1.SelectedIndex != -1 && _idKlienta != null)
             {
 
-                int zz = ((device)lstView1.SelectedItem).idUrządzenia;
-                device device1 = new device(zz, txt1_Rodzaj.Text, txt3_Model.Text, txt4_Parametry.Text, _idKlienta);
-                Task task = new Task(() => Repository.repoInstance.Putdevice(urlStringPUTdevice, device1));
+                int zz = ((Urzadzenie)lstView1.SelectedItem).idUrządzenia;
+                Urzadzenie Urzadzenie1 = new Urzadzenie(zz, txt1_Rodzaj.Text, txt3_Model.Text, txt4_Parametry.Text, _idKlienta);
+                Task task = new Task(() => Repository.repoInstance.PutDevice(urlStringPutDevice, Urzadzenie1));
                 task.Start();
 
                 await task;
@@ -269,9 +269,9 @@ namespace Wpf
         {
             if (lstView1.SelectedIndex != -1)
             {
-                txt1_Rodzaj.Text = ((device)lstView1.SelectedItem).Rodzaj_urzązenia.ToString();
-                txt3_Model.Text = ((device)lstView1.SelectedItem).Model_urządzenia.ToString();
-                txt4_Parametry.Text = ((device)lstView1.SelectedItem).Parametry_urządzenia.ToString();
+                txt1_Rodzaj.Text = ((Urzadzenie)lstView1.SelectedItem).Rodzaj_urzązenia.ToString();
+                txt3_Model.Text = ((Urzadzenie)lstView1.SelectedItem).Model_urządzenia.ToString();
+                txt4_Parametry.Text = ((Urzadzenie)lstView1.SelectedItem).Parametry_urządzenia.ToString();
 
             }
         }
@@ -281,9 +281,9 @@ namespace Wpf
             if (lstView1.SelectedIndex != -1)
             {
 
-                if (((device)lstView1.SelectedItem).idKlienta_fk != null)
+                if (((Urzadzenie)lstView1.SelectedItem).idKlienta_fk != null)
                 {
-                    _idKlienta = ((device)lstView1.SelectedItem).idKlienta_fk;
+                    _idKlienta = ((Urzadzenie)lstView1.SelectedItem).idKlienta_fk;
 
                     Klient xx = Repository.repoInstance.GetKlient(urlStringGetKlient, _idKlienta);
 
@@ -313,8 +313,8 @@ namespace Wpf
 
         private void btnGoToUsterki_Click(object sender, RoutedEventArgs e)
         {
-            int? zz = ((device)lstView1.SelectedItem).idUrządzenia;
-            int? xx = ((device)lstView1.SelectedItem).idKlienta_fk;
+            int? zz = ((Urzadzenie)lstView1.SelectedItem).idUrządzenia;
+            int? xx = ((Urzadzenie)lstView1.SelectedItem).idKlienta_fk;
 
             UsterkiWindow window1 = new UsterkiWindow(null, zz, null, xx);
             window1.Top = this.Top;
@@ -370,9 +370,9 @@ namespace Wpf
 
 
 
-        //private async void btnGetAllUrzadzenia_Click(object sender, RoutedEventArgs e)
+        //private async void btnGetAllDevices_Click(object sender, RoutedEventArgs e)
         //{
-        //    Task<IEnumerable<device>> task = new Task<IEnumerable<device>>(() => Repozytorium.repoInstance.GetAllUrzadzenia(urlStringUrzadzenia + "GetAll"));
+        //    Task<IEnumerable<Urzadzenie>> task = new Task<IEnumerable<Urzadzenie>>(() => Repozytorium.repoInstance.GetAllDevices(urlStringUrzadzenia + "GetAll"));
         //    task.Start();
 
         //    lstView1.Items.Clear();

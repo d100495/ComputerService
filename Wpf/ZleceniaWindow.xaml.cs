@@ -119,7 +119,7 @@ namespace Wpf
                 if (_idKlienta != null)
                 {
                     btnPut.Content = "Zmień";
-                    Task<IEnumerable<Zlecenie_dla_klienta>> task = new Task<IEnumerable<Zlecenie_dla_klienta>>(() => Repository.repoInstance.GetZleceniaKlienta(urlStringGetZleceniaKlienta, _idKlienta));
+                    Task<IEnumerable<Zlecenie_dla_klienta>> task = new Task<IEnumerable<Zlecenie_dla_klienta>>(() => Repository.repoInstance.GetClientOrders(urlStringGetClientOrders, _idKlienta));
                     task.Start();
 
 
@@ -137,7 +137,7 @@ namespace Wpf
             if (pokazWszystkie == true)
             {
                 btnPut.Content = "Zmień i przypisz";
-                Task<IEnumerable<Zlecenie_dla_klienta>> task = new Task<IEnumerable<Zlecenie_dla_klienta>>(() => Repository.repoInstance.GetAllZlecenia(urlStringGetAllZlecenia));
+                Task<IEnumerable<Zlecenie_dla_klienta>> task = new Task<IEnumerable<Zlecenie_dla_klienta>>(() => Repository.repoInstance.GetAllOrders(urlStringGetAllOrders));
                 task.Start();
 
 
@@ -160,11 +160,11 @@ namespace Wpf
 
 
         //URLs
-        public string urlStringGetAllZlecenia = Repository.repoInstance.urlString + "Zlecenia_dla_klienta/GetAll";
-        public string urlStringGetZleceniaKlienta = Repository.repoInstance.urlString + "Zlecenia_dla_klienta/GetZleceniaKlienta?clientId=";
-        public string urlStringDeleteZlecenie = Repository.repoInstance.urlString + "Zlecenia_dla_klienta/Delete/";
-        public string urlStringPostZlecenie = Repository.repoInstance.urlString + "Zlecenia_dla_klienta/Post";
-        public string urlStringPUTZlecenie = Repository.repoInstance.urlString + "Zlecenia_dla_klienta/Put";
+        public string urlStringGetAllOrders = Repository.repoInstance.urlString + "Zlecenia_dla_klienta/GetAll";
+        public string urlStringGetClientOrders = Repository.repoInstance.urlString + "Zlecenia_dla_klienta/GetClientOrders?clientId=";
+        public string urlStringDeleteOrder = Repository.repoInstance.urlString + "Zlecenia_dla_klienta/Delete/";
+        public string urlStringPostOrder = Repository.repoInstance.urlString + "Zlecenia_dla_klienta/Post";
+        public string urlStringPutOrder = Repository.repoInstance.urlString + "Zlecenia_dla_klienta/Put";
         public string urlStringGetKlient = Repository.repoInstance.urlString + "klienci/Get/";
 
         private async void btnGetAll_Click(object sender, RoutedEventArgs e)
@@ -187,7 +187,7 @@ namespace Wpf
 
                 int zz = ((Zlecenie_dla_klienta)lstView1.SelectedItem).idZlecenia;
 
-                Task task = new Task(() => Repository.repoInstance.Deletedevice(urlStringDeleteZlecenie, zz));
+                Task task = new Task(() => Repository.repoInstance.DeleteDevice(urlStringDeleteOrder, zz));
                 task.Start();
 
                 await task;
@@ -253,7 +253,7 @@ namespace Wpf
             {
                 Zlecenie_dla_klienta zlecenie1 = new Zlecenie_dla_klienta(datPrzyjecia, datWykonania, Convert.ToDecimal(txt3_KosztCal.Text), _idKlienta);
 
-                Task task = new Task(() => Repository.repoInstance.PostZlecenie(urlStringPostZlecenie, zlecenie1));
+                Task task = new Task(() => Repository.repoInstance.PostOrder(urlStringPostOrder, zlecenie1));
                 task.Start();
 
                 await task;
@@ -271,7 +271,7 @@ namespace Wpf
             {
                 lstView1.Items.Clear();
 
-                foreach (var item in Repository.repoInstance.GetZleceniaKlienta(urlStringGetZleceniaKlienta, _idKlienta))
+                foreach (var item in Repository.repoInstance.GetClientOrders(urlStringGetClientOrders, _idKlienta))
                 {
                     lstView1.Items.Add(item);
                 }
@@ -354,7 +354,7 @@ namespace Wpf
             {
                 int zz = ((Zlecenie_dla_klienta)lstView1.SelectedItem).idZlecenia;
                 Zlecenie_dla_klienta zlecenie1 = new Zlecenie_dla_klienta(zz, datPrzyjecia, datWykonania, Convert.ToDecimal(txt3_KosztCal.Text), _idKlienta);
-                Task task = new Task(() => Repository.repoInstance.PutZlecenie(urlStringPUTZlecenie, zlecenie1));
+                Task task = new Task(() => Repository.repoInstance.PutOrder(urlStringPutOrder, zlecenie1));
                 task.Start();
 
                 await task;

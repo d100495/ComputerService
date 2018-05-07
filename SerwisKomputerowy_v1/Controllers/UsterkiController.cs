@@ -31,28 +31,28 @@ namespace SerwisKomputerowy_v1.Controllers
         [HttpGet]
         public IEnumerable<UsterkiDTO> GetAll()
         {
-            return RepositoryService.repoInstance.GetAllUsterki();
+            return RepositoryService.repoInstance.GetAllFlaws();
         }
 
 
         [HttpGet]
-        public IEnumerable<UsterkiDTO> GeUsterkiUrzadzenia(int deviceId)
+        public IEnumerable<UsterkiDTO> GeUsterkiUrzadzenia(int UrzadzenieId)
         {
-            return RepositoryService.repoInstance.GetUsterkiUrzadzenia(deviceId);
+            return RepositoryService.repoInstance.GetFlawsForDevice(UrzadzenieId);
         }
 
 
         [HttpGet]
-        public IEnumerable<UsterkiDTO> GetUsterkiZlecenia(int zlecenieId)
+        public IEnumerable<UsterkiDTO> GetFlawsForOrder(int zlecenieId)
         {
-            return RepositoryService.repoInstance.GetUsterkiZlecenia(zlecenieId);
+            return RepositoryService.repoInstance.GetFlawsForOrder(zlecenieId);
         }
 
 
         [HttpGet]
         public async Task<Usterki> Get(int id)
         {
-            return await RepositoryService.repoInstance.GetUsterkaById(id);
+            return await RepositoryService.repoInstance.GetFlawById(id);
         }
 
         [HttpPost]
@@ -64,7 +64,7 @@ namespace SerwisKomputerowy_v1.Controllers
             }
             else
             {
-                RepositoryService.repoInstance.PostUsterka(usterka);
+                RepositoryService.repoInstance.PostFlaw(usterka);
                 await RepositoryService.repoInstance.Save();
                 return Ok(usterka);
             }
@@ -81,7 +81,7 @@ namespace SerwisKomputerowy_v1.Controllers
             }
             else
             {
-                RepositoryService.repoInstance.PutUsterka(usterka);
+                RepositoryService.repoInstance.PutFlaw(usterka);
                 try
                 {
                     await RepositoryService.repoInstance.Save();

@@ -23,7 +23,7 @@ namespace SerwisKomputerowy_v1.Controllers
         public async Task<IHttpActionResult> Delete(int id)
         {
 
-            await RepositoryService.repoInstance.DeleteZlecenie(id);
+            await RepositoryService.repoInstance.DeleteOrder(id);
             await RepositoryService.repoInstance.Save();
             return Ok(id);
         }
@@ -34,14 +34,14 @@ namespace SerwisKomputerowy_v1.Controllers
         [HttpGet]
         public IEnumerable<Zlecenia_dla_klientaDTO> GetAll()
         {
-            return RepositoryService.repoInstance.GetAllZlecenia();
+            return RepositoryService.repoInstance.GetAllOrders();
         }
 
 
         [HttpGet]
-        public IEnumerable<Zlecenia_dla_klientaDTO> GetZleceniaKlienta(int clientId)
+        public IEnumerable<Zlecenia_dla_klientaDTO> GetClientOrders(int clientId)
         {
-            return RepositoryService.repoInstance.GetZleceniaKlienta(clientId);
+            return RepositoryService.repoInstance.GetClientOrders(clientId);
 
         }
 
@@ -49,7 +49,7 @@ namespace SerwisKomputerowy_v1.Controllers
         [HttpGet]
         public async Task<Zlecenia_dla_klienta> Get(int id)
         {
-            return await RepositoryService.repoInstance.GetZlecenieById(id);
+            return await RepositoryService.repoInstance.GetOrderById(id);
         }
 
         [HttpPost]
@@ -61,7 +61,7 @@ namespace SerwisKomputerowy_v1.Controllers
             }
             else
             {
-                RepositoryService.repoInstance.PostZlecenie(zlecenie);
+                RepositoryService.repoInstance.PostOrder(zlecenie);
                 await RepositoryService.repoInstance.Save();
                 return Ok(zlecenie);
             }
@@ -78,7 +78,7 @@ namespace SerwisKomputerowy_v1.Controllers
             }
             else
             {
-                RepositoryService.repoInstance.PutZlecenie(zlecenie);
+                RepositoryService.repoInstance.PutOrder(zlecenie);
                 try
                 {
                     await RepositoryService.repoInstance.Save();

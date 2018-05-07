@@ -32,39 +32,25 @@ namespace Wpf
 
         private Repository()
         {
-            numberOfInstances = 1;    //debugging
+            numberOfInstances = 1;
         }
 
-
-        //
-        //=======================URLs============================
-        //
 
 
         public string urlString = "http://localhost:50966/api/";
 
-        //public string urlString = "http://d100495-001-site1.htempurl.com/api/";
-
-
-        //
-        //=======================Variables============================
-        //
 
         public static int GlobalButtonDelay = 3000;
 
 
-        //
-        //===============================================<KLIENCI>============================================
-        //
-
-        public IEnumerable<Klient> GetAllKlient(string uri)
+        public IEnumerable<Klient> GetAllClients(string uri)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
             var webResponse = (HttpWebResponse)webRequest.GetResponse();
             var reader = new StreamReader(webResponse.GetResponseStream());
             string s = reader.ReadToEnd();
             return JsonConvert.DeserializeObject<IEnumerable<Klient>>(s);
-        }//getall
+        }
 
         public Klient GetKlient(string uri, int? idKlienta)
         {
@@ -74,7 +60,7 @@ namespace Wpf
             var reader = new StreamReader(webResponse.GetResponseStream());
             string s = reader.ReadToEnd();
             return JsonConvert.DeserializeObject<Klient>(s);
-        }//get
+        }
 
 
         public void PostClient(string uri, Klient klient)
@@ -104,11 +90,11 @@ namespace Wpf
             var httpResponse = (HttpWebResponse)webRequest.GetResponse();
 
 
-        }//post
+        }
 
 
 
-        public void DeleteKlient(string uri, int id)
+        public void DeleteClient(string uri, int id)
         {
             string sURL = uri + id;
 
@@ -118,12 +104,12 @@ namespace Wpf
 
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-        }//delete
+        }
 
 
 
 
-        public void PutKlient(string uri, Klient klient)
+        public void PutClient(string uri, Klient klient)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
 
@@ -151,45 +137,41 @@ namespace Wpf
 
             var httpResponse = (HttpWebResponse)webRequest.GetResponse();
 
-        }//put
+        }
 
-        //
-        //===============================================<URZADZENIA>============================================
-        //
-
-        public IEnumerable<device> GetAllUrzadzenia(string uri)
+        public IEnumerable<Urzadzenie> GetAllDevices(string uri)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
             var webResponse = (HttpWebResponse)webRequest.GetResponse();
             var reader = new StreamReader(webResponse.GetResponseStream());
             string s = reader.ReadToEnd();
-            return JsonConvert.DeserializeObject<IEnumerable<device>>(s);
-        }//getall
+            return JsonConvert.DeserializeObject<IEnumerable<Urzadzenie>>(s);
+        }
 
 
-        public device Getdevice(string uri, int? idUrzadzenia)
+        public Urzadzenie GetUrzadzenie(string uri, int? idUrzadzenia)
         {
             string xx = uri + idUrzadzenia;
             var webRequest = (HttpWebRequest)WebRequest.Create(xx);
             var webResponse = (HttpWebResponse)webRequest.GetResponse();
             var reader = new StreamReader(webResponse.GetResponseStream());
             string s = reader.ReadToEnd();
-            return JsonConvert.DeserializeObject<device>(s);
-        }//get
+            return JsonConvert.DeserializeObject<Urzadzenie>(s);
+        }
 
 
-        public IEnumerable<device> GetUrzadzeniaKlienta(string uri, int? idKlienta)
+        public IEnumerable<Urzadzenie> GetClientDevices(string uri, int? idKlienta)
         {
             string sURL = uri + idKlienta;
             var webRequest = (HttpWebRequest)WebRequest.Create(sURL);
             var webResponse = (HttpWebResponse)webRequest.GetResponse();
             var reader = new StreamReader(webResponse.GetResponseStream());
             string s = reader.ReadToEnd();
-            return JsonConvert.DeserializeObject<IEnumerable<device>>(s);
-        }//geturzadzeniaklienta
+            return JsonConvert.DeserializeObject<IEnumerable<Urzadzenie>>(s);
+        }
 
 
-        public void Deletedevice(string uri, int id)
+        public void DeleteDevice(string uri, int id)
         {
             string sURL = uri + id;
 
@@ -199,10 +181,10 @@ namespace Wpf
 
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-        }//delete
+        }
 
 
-        public void PostDevice(string uri, device device)
+        public void PostDevice(string uri, Urzadzenie Urzadzenie)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
 
@@ -215,11 +197,11 @@ namespace Wpf
             {
                 string json = JsonConvert.SerializeObject(new
                 {
-                    idUrządzenia = device.idUrządzenia,
-                    Rodzaj_urzązenia = device.Rodzaj_urzązenia,
-                    Model_urządzenia = device.Model_urządzenia,
-                    Parametry_urządzenia = device.Parametry_urządzenia,
-                    idKlienta_fk = device.idKlienta_fk
+                    idUrządzenia = Urzadzenie.idUrządzenia,
+                    Rodzaj_urzązenia = Urzadzenie.Rodzaj_urzązenia,
+                    Model_urządzenia = Urzadzenie.Model_urządzenia,
+                    Parametry_urządzenia = Urzadzenie.Parametry_urządzenia,
+                    idKlienta_fk = Urzadzenie.idKlienta_fk
 
                 });
                 streamWriter.Write(json);
@@ -229,9 +211,9 @@ namespace Wpf
             var httpResponse = (HttpWebResponse)webRequest.GetResponse();
 
 
-        }//post
+        }
 
-        public void Putdevice(string uri, device device)
+        public void PutDevice(string uri, Urzadzenie Urzadzenie)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
 
@@ -244,11 +226,11 @@ namespace Wpf
             {
                 string json = JsonConvert.SerializeObject(new
                 {
-                    idUrządzenia = device.idUrządzenia,
-                    Rodzaj_urzązenia = device.Rodzaj_urzązenia,
-                    Model_urządzenia = device.Model_urządzenia,
-                    Parametry_urządzenia = device.Parametry_urządzenia,
-                    idKlienta_fk = device.idKlienta_fk,
+                    idUrządzenia = Urzadzenie.idUrządzenia,
+                    Rodzaj_urzązenia = Urzadzenie.Rodzaj_urzązenia,
+                    Model_urządzenia = Urzadzenie.Model_urządzenia,
+                    Parametry_urządzenia = Urzadzenie.Parametry_urządzenia,
+                    idKlienta_fk = Urzadzenie.idKlienta_fk,
                 });
                 streamWriter.Write(json);
 
@@ -257,22 +239,16 @@ namespace Wpf
 
             var httpResponse = (HttpWebResponse)webRequest.GetResponse();
 
-        }//put
-        //
+        }
 
-
-        //
-        //===============================================<Zlecenia>============================================
-        //
-
-        public IEnumerable<Zlecenie_dla_klienta> GetAllZlecenia(string uri)
+        public IEnumerable<Zlecenie_dla_klienta> GetAllOrders(string uri)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
             var webResponse = (HttpWebResponse)webRequest.GetResponse();
             var reader = new StreamReader(webResponse.GetResponseStream());
             string s = reader.ReadToEnd();
             return JsonConvert.DeserializeObject<IEnumerable<Zlecenie_dla_klienta>>(s);
-        }//getall
+        }
 
         public Zlecenie_dla_klienta GetZlecenie(string uri, int? idZlecenia)
         {
@@ -282,10 +258,10 @@ namespace Wpf
             var reader = new StreamReader(webResponse.GetResponseStream());
             string s = reader.ReadToEnd();
             return JsonConvert.DeserializeObject<Zlecenie_dla_klienta>(s);
-        }//get
+        }
 
 
-        public IEnumerable<Zlecenie_dla_klienta> GetZleceniaKlienta(string uri, int? idKlienta)
+        public IEnumerable<Zlecenie_dla_klienta> GetClientOrders(string uri, int? idKlienta)
         {
             string sURL = uri + idKlienta;
             var webRequest = (HttpWebRequest)WebRequest.Create(sURL);
@@ -293,10 +269,10 @@ namespace Wpf
             var reader = new StreamReader(webResponse.GetResponseStream());
             string s = reader.ReadToEnd();
             return JsonConvert.DeserializeObject<IEnumerable<Zlecenie_dla_klienta>>(s);
-        }//getzleceniaklienta
+        }
 
 
-        public void DeleteZlecenie(string uri, int id)
+        public void DeleteOrder(string uri, int id)
         {
             string sURL = uri + id;
 
@@ -306,10 +282,10 @@ namespace Wpf
 
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-        }//delete
+        }
 
 
-        public void PostZlecenie(string uri, Zlecenie_dla_klienta zlec)
+        public void PostOrder(string uri, Zlecenie_dla_klienta zlec)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
 
@@ -336,9 +312,9 @@ namespace Wpf
             var httpResponse = (HttpWebResponse)webRequest.GetResponse();
 
 
-        }//post
+        }
 
-        public void PutZlecenie(string uri, Zlecenie_dla_klienta zlec)
+        public void PutOrder(string uri, Zlecenie_dla_klienta zlec)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
 
@@ -364,25 +340,21 @@ namespace Wpf
 
             var httpResponse = (HttpWebResponse)webRequest.GetResponse();
 
-        }//put
+        }
 
 
 
-        //
-        //===============================================<Usterki>============================================
-        //
-
-        public IEnumerable<Usterka> GetAllUsterki(string uri)
+        public IEnumerable<Usterka> GetAllFlaws(string uri)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
             var webResponse = (HttpWebResponse)webRequest.GetResponse();
             var reader = new StreamReader(webResponse.GetResponseStream());
             string s = reader.ReadToEnd();
             return JsonConvert.DeserializeObject<IEnumerable<Usterka>>(s);
-        }//getall
+        }
 
 
-        public IEnumerable<Usterka> GetUsterkiUrzadzenia(string uri, int? idUrzadzenia)
+        public IEnumerable<Usterka> GetFlawsForDevice(string uri, int? idUrzadzenia)
         {
             string sURL = uri + idUrzadzenia;
             var webRequest = (HttpWebRequest)WebRequest.Create(sURL);
@@ -390,11 +362,11 @@ namespace Wpf
             var reader = new StreamReader(webResponse.GetResponseStream());
             string s = reader.ReadToEnd();
             return JsonConvert.DeserializeObject<IEnumerable<Usterka>>(s);
-        }//getusterkiurzadzenia
+        }
 
 
 
-        public IEnumerable<Usterka> GetUsterkiZlecenia(string uri, int? idZlecenia)
+        public IEnumerable<Usterka> GetFlawsForOrder(string uri, int? idZlecenia)
         {
             string sURL = uri + idZlecenia;
             var webRequest = (HttpWebRequest)WebRequest.Create(sURL);
@@ -402,7 +374,7 @@ namespace Wpf
             var reader = new StreamReader(webResponse.GetResponseStream());
             string s = reader.ReadToEnd();
             return JsonConvert.DeserializeObject<IEnumerable<Usterka>>(s);
-        }//getusterkiZlecenia
+        }
 
 
 
@@ -416,10 +388,10 @@ namespace Wpf
 
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-        }//delete
+        }
 
 
-        public void PostUsterka(string uri, Usterka usterka)
+        public void PostFlaw(string uri, Usterka usterka)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
 
@@ -447,9 +419,9 @@ namespace Wpf
             var httpResponse = (HttpWebResponse)webRequest.GetResponse();
 
 
-        }//post
+        }
 
-        public void PutUsterka(string uri, Usterka usterka)
+        public void PutFlaw(string uri, Usterka usterka)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
 
@@ -476,11 +448,11 @@ namespace Wpf
 
             var httpResponse = (HttpWebResponse)webRequest.GetResponse();
 
-        }//put
+        }
 
 
 
-    }//repozytorium
+    }
 
 
 
@@ -488,5 +460,5 @@ namespace Wpf
 
 
 
-}//namespace
+}
 

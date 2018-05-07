@@ -86,7 +86,7 @@ namespace Wpf
 
         private async Task Refresh()
         {
-            Task<IEnumerable<Klient>> task = new Task<IEnumerable<Klient>>(() => Repository.repoInstance.GetAllKlient(urlStringKlienci + "GetAll"));
+            Task<IEnumerable<Klient>> task = new Task<IEnumerable<Klient>>(() => Repository.repoInstance.GetAllClients(urlStringKlienci + "GetAll"));
             task.Start();
 
 
@@ -133,8 +133,8 @@ namespace Wpf
             if (lstView1.SelectedIndex != -1)
             {
                 int zz = ((Klient)lstView1.SelectedItem).idKlienta;
-                Klient device1 = new Klient(zz, txt1_Nazwisko.Text, txt2_Imie.Text, txt3_Adres.Text, nrtel);
-                Task task = new Task(() => Repository.repoInstance.PutKlient(urlStringKlienci + "Put", device1));
+                Klient Urzadzenie1 = new Klient(zz, txt1_Nazwisko.Text, txt2_Imie.Text, txt3_Adres.Text, nrtel);
+                Task task = new Task(() => Repository.repoInstance.PutClient(urlStringKlienci + "Put", Urzadzenie1));
                 task.Start();
 
                 await task;
@@ -154,7 +154,7 @@ namespace Wpf
             {
                 int zz = ((Klient)lstView1.SelectedItem).idKlienta;
 
-                Task task = new Task(() => Repository.repoInstance.DeleteKlient(urlStringKlienci + "Delete/", zz));
+                Task task = new Task(() => Repository.repoInstance.DeleteClient(urlStringKlienci + "Delete/", zz));
                 task.Start();
 
                 await task;
@@ -202,7 +202,7 @@ namespace Wpf
 
         private async void lstView1_Loaded(object sender, RoutedEventArgs e)
         {
-            Task<IEnumerable<Klient>> task = new Task<IEnumerable<Klient>>(() => Repository.repoInstance.GetAllKlient(urlStringKlienci + "GetAll"));
+            Task<IEnumerable<Klient>> task = new Task<IEnumerable<Klient>>(() => Repository.repoInstance.GetAllClients(urlStringKlienci + "GetAll"));
             task.Start();
 
 
@@ -334,7 +334,7 @@ namespace Wpf
 
         private async void txtSearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Task<IEnumerable<Klient>> task = new Task<IEnumerable<Klient>>(() => Repository.repoInstance.GetAllKlient(urlStringKlienci + "GetAll").Where(xz => xz.Nazwisko.ToUpper().Contains(txtSearchBar.Text.ToUpper())));
+            Task<IEnumerable<Klient>> task = new Task<IEnumerable<Klient>>(() => Repository.repoInstance.GetAllClients(urlStringKlienci + "GetAll").Where(xz => xz.Nazwisko.ToUpper().Contains(txtSearchBar.Text.ToUpper())));
             task.Start();
 
             var x = await task;

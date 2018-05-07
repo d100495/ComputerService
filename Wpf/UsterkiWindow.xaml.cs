@@ -113,7 +113,7 @@ namespace Wpf
         {
             if (pokazWszystkie == true)
             {
-                Task<IEnumerable<Usterka>> task = new Task<IEnumerable<Usterka>>(() => Repository.repoInstance.GetAllUsterki(urlStringUsterkiGetAll));
+                Task<IEnumerable<Usterka>> task = new Task<IEnumerable<Usterka>>(() => Repository.repoInstance.GetAllFlaws(urlStringUsterkiGetAll));
                 task.Start();
 
 
@@ -130,7 +130,7 @@ namespace Wpf
             {
                 if (_idUrzadzenia != null)
                 {
-                    Task<IEnumerable<Usterka>> task = new Task<IEnumerable<Usterka>>(() => Repository.repoInstance.GetUsterkiUrzadzenia(urlStringGetUsterkiUrządzenia, _idUrzadzenia));
+                    Task<IEnumerable<Usterka>> task = new Task<IEnumerable<Usterka>>(() => Repository.repoInstance.GetFlawsForDevice(urlStringGetUsterkiUrządzenia, _idUrzadzenia));
                     task.Start();
 
 
@@ -148,7 +148,7 @@ namespace Wpf
             {
                 if (_idZlecenia != null)
                 {
-                    Task<IEnumerable<Usterka>> task = new Task<IEnumerable<Usterka>>(() => Repository.repoInstance.GetUsterkiZlecenia(urlStringGetUsterkiZlecenia, _idZlecenia));
+                    Task<IEnumerable<Usterka>> task = new Task<IEnumerable<Usterka>>(() => Repository.repoInstance.GetFlawsForOrder(urlStringGetFlawsForOrder, _idZlecenia));
                     task.Start();
 
 
@@ -170,13 +170,13 @@ namespace Wpf
 
         //URLs
         public string urlStringUsterkiGetAll = Repository.repoInstance.urlString + "usterki/GetAll";
-        public string urlStringGetUsterkiUrządzenia = Repository.repoInstance.urlString + "Usterki/GeUsterkiUrzadzenia?deviceId=";
+        public string urlStringGetUsterkiUrządzenia = Repository.repoInstance.urlString + "Usterki/GeUsterkiUrzadzenia?UrzadzenieId=";
         public string urlStringGetZlecenie = Repository.repoInstance.urlString + "Zlecenia_dla_klienta/Get/";
-        public string urlStringGetdevice = Repository.repoInstance.urlString + "Urzadzenia/Get/";
-        public string urlStringPostUsterka = Repository.repoInstance.urlString + "Usterki/Post";
+        public string urlStringGetUrzadzenie = Repository.repoInstance.urlString + "Urzadzenia/Get/";
+        public string urlStringPostFlaw = Repository.repoInstance.urlString + "Usterki/Post";
         public string urlStringDeleteFlaw = Repository.repoInstance.urlString + "Usterki/Delete/";
-        public string urlStringPutUsterka = Repository.repoInstance.urlString + "Usterki/Put";
-        public string urlStringGetUsterkiZlecenia = Repository.repoInstance.urlString + "Usterki/GetUsterkiZlecenia?zlecenieId=";
+        public string urlStringPutFlaw = Repository.repoInstance.urlString + "Usterki/Put";
+        public string urlStringGetFlawsForOrder = Repository.repoInstance.urlString + "Usterki/GetFlawsForOrder?zlecenieId=";
 
         private async void btnGetAll_Click(object sender, RoutedEventArgs e)
         {
@@ -244,7 +244,7 @@ namespace Wpf
             {
                 Usterka usterka1 = new Usterka(ComboBox1_RodzajUsterki.SelectedValue.ToString(), txt3_OpisUsterki.Text, txt4_WykonanePrace.Text, _idZlecenia, _idUrzadzenia);
 
-                Task task = new Task(() => Repository.repoInstance.PostUsterka(urlStringPostUsterka, usterka1));
+                Task task = new Task(() => Repository.repoInstance.PostFlaw(urlStringPostFlaw, usterka1));
                 task.Start();
 
                 await task;
@@ -265,7 +265,7 @@ namespace Wpf
         {
             //lstView1.Items.Clear();
 
-            //foreach (var item in Repozytorium.repoInstance.GetZleceniaKlienta(urlStringGetZleceniaKlienta, _idKlienta))
+            //foreach (var item in Repozytorium.repoInstance.GetClientOrders(urlStringGetClientOrders, _idKlienta))
             //{
             //    lstView1.Items.Add(item);
             //}
@@ -275,8 +275,7 @@ namespace Wpf
         {
             if (_idUrzadzenia != null)
             {
-                device xx = Repository.repoInstance.Getdevice(urlStringGetdevice, _idUrzadzenia);
-
+                Urzadzenie xx = Repository.repoInstance.GetUrzadzenie(urlStringGetUrzadzenie, _idUrzadzenia);
 
                 lblUidurzadzenia.Content = xx.idUrządzenia;
                 lblUmodelurzadzenia.Content = xx.Model_urządzenia;
@@ -335,7 +334,7 @@ namespace Wpf
             {
                 int zz = ((Usterka)lstView1.SelectedItem).idUsterki;
                 Usterka usterka1 = new Usterka(zz, ComboBox1_RodzajUsterki.SelectedValue.ToString(), txt3_OpisUsterki.Text, txt4_WykonanePrace.Text, _idZlecenia, _idUrzadzenia);
-                Task task = new Task(() => Repository.repoInstance.PutUsterka(urlStringPutUsterka, usterka1));
+                Task task = new Task(() => Repository.repoInstance.PutFlaw(urlStringPutFlaw, usterka1));
                 task.Start();
 
                 await task;
@@ -431,7 +430,7 @@ namespace Wpf
                 {
                     _idUrzadzenia = ((Usterka)lstView1.SelectedItem).idUrządzenia_fk;
 
-                    device xx = Repository.repoInstance.Getdevice(urlStringGetdevice, _idUrzadzenia);
+                    Urzadzenie xx = Repository.repoInstance.GetUrzadzenie(urlStringGetUrzadzenie, _idUrzadzenia);
 
 
                     lblUidurzadzenia.Content = xx.idUrządzenia;

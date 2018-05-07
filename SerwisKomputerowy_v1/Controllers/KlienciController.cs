@@ -22,14 +22,14 @@ namespace SerwisKomputerowy_v1.Controllers
         [HttpGet]
         public IEnumerable<KlientDTO> GetAll()
         {
-            return RepositoryService.repoInstance.GetAllKlient();
+            return RepositoryService.repoInstance.GetAllClients();
         }
 
 
         [HttpGet]
         public async Task<Klienci> Get(int id)
         {
-            return await RepositoryService.repoInstance.GetKlientById(id);
+            return await RepositoryService.repoInstance.GetClientById(id);
         }
 
 
@@ -42,7 +42,7 @@ namespace SerwisKomputerowy_v1.Controllers
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(int id)
         {
-            await RepositoryService.repoInstance.DeleteKlient(id);
+            await RepositoryService.repoInstance.DeleteClient(id);
             await RepositoryService.repoInstance.Save();
             return Ok(id);
         }
@@ -72,7 +72,7 @@ namespace SerwisKomputerowy_v1.Controllers
             }
             else
             {
-                RepositoryService.repoInstance.PutKlient(klient);
+                RepositoryService.repoInstance.PutClient(klient);
                 try
                 {
                     await RepositoryService.repoInstance.Save();
