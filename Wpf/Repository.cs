@@ -52,9 +52,9 @@ namespace Wpf
             return JsonConvert.DeserializeObject<IEnumerable<Klient>>(s);
         }
 
-        public Klient GetKlient(string uri, int? idKlienta)
+        public Klient GetKlient(string uri, int? clientId)
         {
-            string xx = uri + idKlienta;
+            string xx = uri + clientId;
             var webRequest = (HttpWebRequest)WebRequest.Create(xx);
             var webResponse = (HttpWebResponse)webRequest.GetResponse();
             var reader = new StreamReader(webResponse.GetResponseStream());
@@ -63,24 +63,22 @@ namespace Wpf
         }
 
 
-        public void PostClient(string uri, Klient klient)
+        public void PostClient(string uri, Klient client)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
 
             webRequest.Method = "POST";
             webRequest.ContentType = "application/json";
 
-
-
             using (var streamWriter = new StreamWriter(webRequest.GetRequestStream()))
             {
                 string json = JsonConvert.SerializeObject(new
                 {
-                    idKlienta = klient.idKlienta,
-                    Nazwisko = klient.Nazwisko,
-                    Imie = klient.Imie,
-                    Adres = klient.Adres,
-                    Numer_telefonu = klient.Numer_telefonu
+                    idKlienta = client.idKlienta,
+                    Nazwisko = client.Nazwisko,
+                    Imie = client.Imie,
+                    Adres = client.Adres,
+                    Numer_telefonu = client.Numer_telefonu
 
                 });
                 streamWriter.Write(json);
@@ -109,7 +107,7 @@ namespace Wpf
 
 
 
-        public void PutClient(string uri, Klient klient)
+        public void PutClient(string uri, Klient client)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
 
@@ -122,11 +120,11 @@ namespace Wpf
             {
                 string json = JsonConvert.SerializeObject(new
                 {
-                    idKlienta = klient.idKlienta,
-                    Imie = klient.Imie,
-                    Nazwisko = klient.Nazwisko,
-                    Adres = klient.Adres,
-                    Numer_telefonu = klient.Numer_telefonu
+                    idKlienta = client.idKlienta,
+                    Imie = client.Imie,
+                    Nazwisko = client.Nazwisko,
+                    Adres = client.Adres,
+                    Numer_telefonu = client.Numer_telefonu
 
 
                 });
@@ -250,9 +248,9 @@ namespace Wpf
             return JsonConvert.DeserializeObject<IEnumerable<Zlecenie_dla_klienta>>(s);
         }
 
-        public Zlecenie_dla_klienta GetZlecenie(string uri, int? idZlecenia)
+        public Zlecenie_dla_klienta GetOrder(string uri, int? orderId)
         {
-            string xx = uri + idZlecenia;
+            string xx = uri + orderId;
             var webRequest = (HttpWebRequest)WebRequest.Create(xx);
             var webResponse = (HttpWebResponse)webRequest.GetResponse();
             var reader = new StreamReader(webResponse.GetResponseStream());
@@ -354,9 +352,9 @@ namespace Wpf
         }
 
 
-        public IEnumerable<Usterka> GetFlawsForDevice(string uri, int? idUrzadzenia)
+        public IEnumerable<Usterka> GetFlawsForDevice(string uri, int? deviceId)
         {
-            string sURL = uri + idUrzadzenia;
+            string sURL = uri + deviceId;
             var webRequest = (HttpWebRequest)WebRequest.Create(sURL);
             var webResponse = (HttpWebResponse)webRequest.GetResponse();
             var reader = new StreamReader(webResponse.GetResponseStream());
@@ -421,7 +419,7 @@ namespace Wpf
 
         }
 
-        public void PutFlaw(string uri, Usterka usterka)
+        public void PutFlaw(string uri, Usterka flaw)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create(uri);
 
@@ -434,12 +432,12 @@ namespace Wpf
             {
                 string json = JsonConvert.SerializeObject(new
                 {
-                    idUsterki = usterka.idUsterki,
-                    Opis_usterki = usterka.Opis_usterki,
-                    idUrządzenia_fk = usterka.idUrządzenia_fk,
-                    Rodzaj_usterki = usterka.Rodzaj_usterki,
-                    Wykonane_prace = usterka.Wykonane_prace,
-                    idZlecenia_fk = usterka.idZlecenia_fk,
+                    idUsterki = flaw.idUsterki,
+                    Opis_usterki = flaw.Opis_usterki,
+                    idUrządzenia_fk = flaw.idUrządzenia_fk,
+                    Rodzaj_usterki = flaw.Rodzaj_usterki,
+                    Wykonane_prace = flaw.Wykonane_prace,
+                    idZlecenia_fk = flaw.idZlecenia_fk,
                 });
                 streamWriter.Write(json);
 

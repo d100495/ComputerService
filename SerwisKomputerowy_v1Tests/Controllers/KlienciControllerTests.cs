@@ -16,7 +16,6 @@ namespace SerwisKomputerowy_v1.Controllers.Tests
     [TestClass()]
     public class KlienciControllerTests
     {
-
         private Mock<RepositoryService> mockRepository { get; set; }
         private KlienciController controller { get; set; }
     }

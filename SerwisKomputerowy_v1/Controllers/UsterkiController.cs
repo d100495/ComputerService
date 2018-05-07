@@ -36,7 +36,7 @@ namespace SerwisKomputerowy_v1.Controllers
 
 
         [HttpGet]
-        public IEnumerable<UsterkiDTO> GeUsterkiUrzadzenia(int UrzadzenieId)
+        public IEnumerable<UsterkiDTO> GetFlawsForDevice(int UrzadzenieId)
         {
             return RepositoryService.repoInstance.GetFlawsForDevice(UrzadzenieId);
         }
